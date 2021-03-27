@@ -7,7 +7,7 @@ const GreetingsText = styled.span`
   color: ${theme.colors.primary.main};
 `;
 
-const Header = () => {
+const Header = ({ title }) => {
   const [mounted, setMounted] = useState(false);
   const [greetings, setGreetings] = useState(undefined);
 
@@ -38,8 +38,16 @@ const Header = () => {
   return (
     <Box>
       <Heading as="h2" size="lg" fontFamily="body">
-        <GreetingsText>Good </GreetingsText>
-        {greetings}
+        {title === undefined ? (
+          <>
+            <GreetingsText>Good </GreetingsText>
+            {greetings}
+          </>
+        ) : (
+          <>
+            <span>{title}</span>
+          </>
+        )}
       </Heading>
     </Box>
   );

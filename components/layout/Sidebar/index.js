@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { css } from "@emotion/react";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import {
   BiHomeAlt,
@@ -10,27 +9,11 @@ import {
   BiPalette,
   BiHeart,
 } from "react-icons/bi";
-import theme from "styles/theme";
-
-const menuItemStyle = css`
-  border-radius: 15px;
-  padding: 12px 16px;
-  &:hover {
-    background: ${theme.colors.primary.light};
-    cursor: pointer;
-  }
-  margin-bottom: 6px;
-  transition: all 0.3s;
-`;
-
-const activeStyle = css`
-  background: ${theme.colors.primary.main};
-`;
 
 const menuItems = [
   { path: "/", icon: <BiHomeAlt />, label: "Home" },
-  { path: "/category", icon: <BiListUl />, label: "Category" },
-  { path: "/meal", icon: <BiFoodMenu />, label: "Meal" },
+  { path: "/categories", icon: <BiListUl />, label: "Categories" },
+  { path: "/meals", icon: <BiFoodMenu />, label: "Meals" },
   { path: "/ingredients", icon: <BiPalette />, label: "Ingredients" },
   { path: "/favourites", icon: <BiHeart />, label: "Favourites" },
 ];
@@ -51,7 +34,15 @@ const Sidebar = () => {
         return (
           <Link key={index} href={item.path}>
             <Box
-              css={menuItemStyle}
+              borderRadius="15px"
+              px="16px"
+              py="12px"
+              mb="6px"
+              transition="all 0.3s"
+              _hover={{
+                background: "primary.light",
+                cursor: "pointer",
+              }}
               bg={
                 router.pathname === item.path ? "primary.main" : "transparent"
               }

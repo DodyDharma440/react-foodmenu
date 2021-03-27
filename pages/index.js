@@ -4,8 +4,8 @@ import Head from "next/head";
 import { Flex, Box } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
-import Search from "components/search/Search";
-import ListContainer from "components/products/ListContainer";
+import GridListContainer from "components/layout/GridListContainer";
+import HorizontalListContainer from "components/layout/HorizontalListContainer";
 import MealCard from "components/products/MealCard";
 import IngredientCard from "components/products/IngredientCard";
 import Banner from "components/products/Banner";
@@ -22,50 +22,35 @@ const Home = ({ meals, ingredients }) => {
           <Box flex="1">
             <Header />
           </Box>
-          <Box>
-            <Search />
-          </Box>
         </Flex>
 
         <Box mb={8}>
-          <Box
-            overflow="auto"
-            whiteSpace="nowrap"
-            sx={{
-              "&::-webkit-scrollbar": {
-                height: "10px",
-                borderRadius: "8px",
-                backgroundColor: "gray.300",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                borderRadius: "8px",
-                backgroundColor: "primary.main",
-              },
-            }}
-          >
+          <HorizontalListContainer>
             {meals.slice(0, 3).map((meal, index) => (
               <Banner key={index} item={meal} />
             ))}
-          </Box>
+          </HorizontalListContainer>
         </Box>
 
         {meals.length > 4 ? (
-          <ListContainer title="Recommendation Meals">
+          <GridListContainer title="Recommendation Meals" moreLink>
             {meals.slice(4, 10).map((meal, index) => (
               <MealCard key={index} item={meal} />
             ))}
-          </ListContainer>
+          </GridListContainer>
         ) : null}
 
-        <ListContainer title="Popular Ingredients">
+        <GridListContainer title="Popular Ingredients" moreLink>
           {ingredients.slice(0, 10).map((ingredient, index) => (
             <IngredientCard key={index} item={ingredient} />
           ))}
-        </ListContainer>
+        </GridListContainer>
       </Layout>
     </>
   );
 };
+
+export default Home;
 
 export async function getStaticProps() {
   const category = [
@@ -99,5 +84,3 @@ export async function getStaticProps() {
     },
   };
 }
-
-export default Home;
