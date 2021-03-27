@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
@@ -37,8 +38,6 @@ const menuItems = [
 const Sidebar = () => {
   const router = useRouter();
 
-  console.log(router.pathname);
-
   return (
     <div>
       <Image
@@ -50,19 +49,22 @@ const Sidebar = () => {
       />
       {menuItems.map((item, index) => {
         return (
-          <Box
-            key={index}
-            css={menuItemStyle}
-            bg={router.pathname === item.path ? "primary.main" : "transparent"}
-          >
-            <HStack>
-              <Text fontSize="2xl">{item.icon}</Text>
+          <Link key={index} href={item.path}>
+            <Box
+              css={menuItemStyle}
+              bg={
+                router.pathname === item.path ? "primary.main" : "transparent"
+              }
+            >
+              <HStack>
+                <Text fontSize="2xl">{item.icon}</Text>
 
-              <Text fontSize="sm" fontWeight="bold">
-                {item.label}
-              </Text>
-            </HStack>
-          </Box>
+                <Text fontSize="sm" fontWeight="bold">
+                  {item.label}
+                </Text>
+              </HStack>
+            </Box>
+          </Link>
         );
       })}
     </div>
