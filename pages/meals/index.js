@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Head from "next/head";
-import { Box, Flex, Center, CircularProgress } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Center,
+  CircularProgress,
+  Text,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
+import Search from "components/search/Search";
 import HorizontalListContainer from "components/layout/HorizontalListContainer";
 import GridListContainer from "components/layout/GridListContainer";
 import CategoryCard from "components/products/CategoryCard";
@@ -13,6 +24,7 @@ const Meal = ({ categories }) => {
   const [currentCategory, setCurrentCategory] = useState("Beef");
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const fetchMeals = (currentCategory) => {
     setLoading(true);
@@ -25,7 +37,22 @@ const Meal = ({ categories }) => {
         setLoading(false);
       })
       .catch((err) => {
-        alert(err);
+        setErrorMessage(err.message);
+        setLoading(false);
+      });
+  };
+
+  const fetchSearch = (inputValue) => {
+    setCurrentCategory("");
+    setLoading(true);
+    axios
+      .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
+      .then((res) => {
+        setMeals(res.data.meals);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
         setLoading(false);
       });
   };
@@ -48,7 +75,10 @@ const Meal = ({ categories }) => {
       <Layout>
         <Flex mb={5}>
           <Box flex="1">
-            <Header title="Meal Page" />
+            <Header title="Find and Explore the Meals You Want" />
+          </Box>
+          <Box>
+            <Search fetchSearch={fetchSearch} />
           </Box>
         </Flex>
 
@@ -72,8 +102,53 @@ const Meal = ({ categories }) => {
               color="secondary.main"
             />
           </Center>
+        ) : errorMessage ? (
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="200px"
+            p={6}
+            borderRadius="15px"
+            w="100%"
+          >
+            <AlertIcon boxSize="40px" mr={0} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              Search Meals Failed
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">{errorMessage}</AlertDescription>
+          </Alert>
+        ) : meals === null ? (
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="200px"
+            p={6}
+            borderRadius="15px"
+            w="100%"
+          >
+            <AlertIcon boxSize="40px" mr={0} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              Search Meals Failed
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              Your search keyword doesn't match in our meal lists. Please input
+              another keyword.
+            </AlertDescription>
+          </Alert>
         ) : (
-          <GridListContainer title={`Meals for ${currentCategory}`}>
+          <GridListContainer
+            title={`Meals ${
+              currentCategory !== "" ? `for ${currentCategory}` : "Lists"
+            }`}
+          >
             {meals.map((meal, index) => (
               <MealCard key={index} item={meal} />
             ))}

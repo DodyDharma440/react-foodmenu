@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import {
   Heading,
   Text,
@@ -23,16 +24,18 @@ const MenuList = ({ children, title, moreLink }) => {
           {title ? title : "Title"}
         </Heading>
         {moreLink && (
-          <Text
-            fontWeight="bold"
-            transition="all 0.5s"
-            cursor="pointer"
-            _hover={{
-              color: "secondary.main",
-            }}
-          >
-            More...
-          </Text>
+          <Link href={moreLink}>
+            <Text
+              fontWeight="bold"
+              transition="all 0.5s"
+              cursor="pointer"
+              _hover={{
+                color: "secondary.main",
+              }}
+            >
+              More...
+            </Text>
+          </Link>
         )}
       </Flex>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Head from "next/head";
 import { Flex, Box } from "@chakra-ui/react";
@@ -11,6 +11,36 @@ import IngredientCard from "components/products/IngredientCard";
 import Banner from "components/products/Banner";
 
 const Home = ({ meals, ingredients }) => {
+  // const [meals, setMeals] = useState([]);
+
+  // const category = [
+  //   "Beef",
+  //   "Chicken",
+  //   "Dessert",
+  //   "Lamb",
+  //   "Miscellaneous",
+  //   "Pasta",
+  //   "Pork",
+  //   "Seafood",
+  //   "Side",
+  //   "Starter",
+  //   "Vegan",
+  //   "Vegetarian",
+  // ];
+  // const randomCategory = Math.floor(Math.random() * category.length);
+
+  // useEffect(() => {
+  //   const urlMeals = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category[randomCategory]}`;
+  //   axios
+  //     .get(urlMeals)
+  //     .then((res) => {
+  //       setMeals(res.data.meals);
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //     });
+  // }, []);
+
   return (
     <>
       <Head>
@@ -33,14 +63,14 @@ const Home = ({ meals, ingredients }) => {
         </Box>
 
         {meals.length > 4 ? (
-          <GridListContainer title="Recommendation Meals" moreLink>
+          <GridListContainer title="Recommendation Meals" moreLink="/meals">
             {meals.slice(4, 10).map((meal, index) => (
               <MealCard key={index} item={meal} />
             ))}
           </GridListContainer>
         ) : null}
 
-        <GridListContainer title="Popular Ingredients" moreLink>
+        <GridListContainer title="Popular Ingredients" moreLink="">
           {ingredients.slice(0, 10).map((ingredient, index) => (
             <IngredientCard key={index} item={ingredient} />
           ))}

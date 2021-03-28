@@ -1,40 +1,54 @@
 import React, { useState } from "react";
-import { css } from "@emotion/react";
-import { InputGroup, Input, InputRightElement, Box } from "@chakra-ui/react";
-import { BiSearch } from "react-icons/bi";
+import {
+  InputGroup,
+  Input,
+  InputRightElement,
+  InputLeftElement,
+  Box,
+} from "@chakra-ui/react";
+import { BiSearch, BiX } from "react-icons/bi";
 
-const inputStyle = css`
-  border-radius: 15px;
-  background-color: #fafafa;
-  &:hover {
-    background-color: #fafafa;
-  }
-  &:focus {
-    background: #fff;
-  }
-`;
-
-const Search = () => {
+const Search = ({ fetchSearch }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchSearch(inputValue);
+  };
+
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <Box>
         <InputGroup>
+          <InputLeftElement cursor="pointer" onClick={(e) => handleSubmit(e)}>
+            <BiSearch fontSize="20px" />
+          </InputLeftElement>
           <Input
             variant="filled"
-            css={inputStyle}
-            placeholder="Search..."
+            borderRadius="15px"
+            bgColor="#fafafa"
+            _hover={{
+              background: "#fafafa",
+            }}
+            _focus={{
+              background: "#fff",
+            }}
+            placeholder="Search by name..."
             onChange={(e) => handleInputChange(e)}
             value={inputValue}
           />
-          <InputRightElement>
-            <BiSearch fontSize="20px" />
-          </InputRightElement>
+          {inputValue.length > 0 && (
+            <InputRightElement
+              cursor="pointer"
+              onClick={() => setInputValue("")}
+            >
+              <BiX fontSize="20px" />
+            </InputRightElement>
+          )}
         </InputGroup>
       </Box>
     </form>
