@@ -70,7 +70,7 @@ const Home = ({ meals, ingredients }) => {
           </GridListContainer>
         ) : null}
 
-        <GridListContainer title="Popular Ingredients" moreLink="">
+        <GridListContainer title="Popular Ingredients" moreLink="/ingredients">
           {ingredients.slice(0, 10).map((ingredient, index) => (
             <IngredientCard key={index} item={ingredient} />
           ))}

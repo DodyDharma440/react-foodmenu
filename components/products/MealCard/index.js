@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
 import { FaYoutube } from "react-icons/fa";
 
 const MealCard = ({ item }) => {
@@ -24,18 +24,26 @@ const MealCard = ({ item }) => {
           w="100%"
           borderRadius="10px"
         />
-        <Flex justifyContent="flex-end" pt={1}>
-          <Text
-            fontSize="sm"
-            fontWeight="600"
-            color="secondary.main"
-            isTruncated
-            flex="1"
-            width="100px"
-          >
+        <Stack
+          pt={1}
+          direction={useBreakpointValue({
+            base: "column",
+            sm: "row",
+          })}
+        >
+          <Text fontSize="sm" fontWeight="600" color="secondary.main">
             {detail.strArea}
           </Text>
-          <a href={detail.strYoutube} target="_blank">
+          <a
+            href={detail.strYoutube}
+            target="_blank"
+            style={{
+              marginLeft: useBreakpointValue({
+                base: "0",
+                sm: "auto",
+              }),
+            }}
+          >
             <Text
               fontSize="xl"
               transition="all 0.3s"
@@ -44,7 +52,7 @@ const MealCard = ({ item }) => {
               <FaYoutube />
             </Text>
           </a>
-        </Flex>
+        </Stack>
       </Box>
       <Text
         w="100%"

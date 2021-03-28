@@ -46,7 +46,9 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
     let range;
 
     if (page === 0) {
-      range = `1-${rowsPerPage} of ${count}`;
+      range = `${count < 1 ? "0" : "1"}-${
+        count < rowsPerPage ? count : rowsPerPage
+      } of ${count}`;
     } else {
       range = `${firstRangePerPage}-${
         secondRangePerPage > count ? count : secondRangePerPage

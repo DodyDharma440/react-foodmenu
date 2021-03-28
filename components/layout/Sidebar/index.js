@@ -20,6 +20,7 @@ const menuItems = [
 
 const Sidebar = () => {
   const router = useRouter();
+  const arrayPathname = router.pathname.split("/");
 
   return (
     <div>
@@ -44,7 +45,9 @@ const Sidebar = () => {
                 cursor: "pointer",
               }}
               bg={
-                router.pathname === item.path ? "primary.main" : "transparent"
+                arrayPathname[1] === item.path.slice(1)
+                  ? "primary.main"
+                  : "transparent"
               }
             >
               <HStack>

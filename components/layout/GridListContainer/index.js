@@ -8,6 +8,7 @@ import {
   Box,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { ImArrowRight2 } from "react-icons/im";
 
 const MenuList = ({ children, title, moreLink }) => {
   const gridTemplateColumns = useBreakpointValue({
@@ -25,16 +26,20 @@ const MenuList = ({ children, title, moreLink }) => {
         </Heading>
         {moreLink && (
           <Link href={moreLink}>
-            <Text
-              fontWeight="bold"
+            <Box
               transition="all 0.5s"
               cursor="pointer"
               _hover={{
                 color: "secondary.main",
               }}
             >
-              More...
-            </Text>
+              <Flex alignItems="center">
+                <Text fontWeight="bold" mr="4px">
+                  More
+                </Text>
+                <ImArrowRight2 fontWeight="bold" />
+              </Flex>
+            </Box>
           </Link>
         )}
       </Flex>

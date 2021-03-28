@@ -59,7 +59,7 @@ const Banner = ({ item }) => {
                   color="secondary.main"
                   mb={3}
                 >
-                  {detail.strCategory}
+                  {detail.strArea}
                 </Text>
                 <a href={detail.strYoutube} target="_blank">
                   <Button

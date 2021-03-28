@@ -69,7 +69,7 @@ const Meal = ({ categories }) => {
   return (
     <>
       <Head>
-        <title>Meal Page</title>
+        <title>FooDY | Meals</title>
       </Head>
 
       <Layout>
