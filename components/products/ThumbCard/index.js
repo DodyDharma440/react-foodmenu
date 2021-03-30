@@ -10,8 +10,6 @@ const ThumbCard = ({ image }) => {
       bgSize="cover"
       bgPosition="center"
       borderRadius="15px"
-      mt={2}
-      mb={4}
     >
       <Box
         w="100%"
@@ -21,6 +19,7 @@ const ThumbCard = ({ image }) => {
         p={4}
       >
         <Image
+          bgColor="white"
           src={image}
           maxHeight="100%"
           borderRadius="15px"

@@ -1,45 +1,35 @@
 import React from "react";
 import axios from "axios";
 import {
-  Image,
   Box,
   Text,
   HStack,
   VStack,
   Flex,
   Spacer,
-  Heading,
-  Divider,
-  Tag,
+  Button,
   useBreakpointValue,
-  useTheme,
 } from "@chakra-ui/react";
-import { BiListUl, BiPalette } from "react-icons/bi";
+import { BiListUl } from "react-icons/bi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { CgBowl } from "react-icons/cg";
+import { AiFillYoutube } from "react-icons/ai";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
 import SidebarRight from "components/layout/SidebarRight";
 import ThumbCard from "components/products/ThumbCard";
-import IngredientList from "components/products/_detail/_meals/IngredientList";
-import InstructionCard from "components/products/_detail/_meals/InstructionCard";
+import IngredientList from "components/products/_detail/meals/IngredientList";
+import InstructionCard from "components/products/_detail/meals/InstructionCard";
 
-const DetailMeal = ({ meal }) => {
-  console.log(meal);
-  const theme = useTheme();
-
+const DetailMeal = ({ meal, ingredients }) => {
   const {
     idMeal,
     strMeal,
-    strDrinkAlternate,
     strCategory,
     strArea,
     strInstructions,
     strMealThumb,
     strTags,
     strYoutube,
-    strSource,
-    strImageSource,
   } = meal;
 
   const ingredientMeasure = [
@@ -95,7 +85,24 @@ const DetailMeal = ({ meal }) => {
               </Text>
             </HStack>
           </Flex>
-          <ThumbCard image={strMealThumb} />
+          <Box my={2}>
+            <ThumbCard image={strMealThumb} />
+          </Box>
+
+          <Flex mb={2}>
+            <Spacer />
+            {strYoutube !== "" && (
+              <a target="_blank" href={strYoutube}>
+                <Button
+                  leftIcon={<AiFillYoutube fontSize="18px" />}
+                  bg="red.500"
+                  colorScheme="red"
+                >
+                  Youtube Tutorial
+                </Button>
+              </a>
+            )}
+          </Flex>
 
           <VStack spacing={4}>
             <InstructionCard instructions={strInstructions} tags={tags} />
@@ -107,8 +114,12 @@ const DetailMeal = ({ meal }) => {
                   p={4}
                   borderRadius="15px"
                   display={useBreakpointValue({ base: "block", lg: "none" })}
+                  boxShadow="lg"
                 >
-                  <IngredientList ingredientMeasure={ingredientMeasure} />
+                  <IngredientList
+                    ingredients={ingredients}
+                    ingredientMeasure={ingredientMeasure}
+                  />
                 </Box>
               ),
               lg: <></>,
@@ -120,7 +131,10 @@ const DetailMeal = ({ meal }) => {
           base: <></>,
           lg: (
             <SidebarRight>
-              <IngredientList ingredientMeasure={ingredientMeasure} />
+              <IngredientList
+                ingredients={ingredients}
+                ingredientMeasure={ingredientMeasure}
+              />
             </SidebarRight>
           ),
         })}
@@ -132,14 +146,20 @@ const DetailMeal = ({ meal }) => {
 export default DetailMeal;
 
 export async function getServerSideProps(context) {
-  const res = await axios.get(
+  const resMeal = await axios.get(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${context.params.id}`
   );
-  const meal = await res.data.meals[0];
+  const meal = await resMeal.data.meals[0];
+
+  const resIngredients = await axios.get(
+    "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
+  );
+  const ingredients = await resIngredients.data.meals;
 
   return {
     props: {
       meal,
+      ingredients,
     },
   };
 }
