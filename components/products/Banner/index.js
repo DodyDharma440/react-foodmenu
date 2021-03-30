@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { css } from "@emotion/react";
 import axios from "axios";
 import { Box, Text, Grid, GridItem, Flex, Button } from "@chakra-ui/react";
@@ -49,10 +50,19 @@ const Banner = ({ item }) => {
           <GridItem colSpan={2}>
             <Flex alignItems="flex-end" h="100%">
               <Box mb={4}>
-                <Text as="h4" fontSize="3xl" fontWeight="bold" color="white">
-                  {strMeal.slice(0, 40)}
-                  {strMeal.length > 40 ? "..." : null}
-                </Text>
+                <Link href={`/meals/detail/${idMeal}`}>
+                  <Text
+                    as="h4"
+                    fontSize="3xl"
+                    fontWeight="bold"
+                    color="white"
+                    transition="0.4s"
+                    _hover={{ color: "gray.500", cursor: "pointer" }}
+                  >
+                    {strMeal.slice(0, 40)}
+                    {strMeal.length > 40 ? "..." : null}
+                  </Text>
+                </Link>
                 <Text
                   fontSize="md"
                   fontWeight="bold"

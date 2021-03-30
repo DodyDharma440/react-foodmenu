@@ -1,8 +1,9 @@
 import React from "react";
+import Link from "next/link";
 import { Box, Text } from "@chakra-ui/react";
 
 const IngredientCard = ({ item }) => {
-  const { strIngredient } = item;
+  const { strIngredient, idIngredient } = item;
 
   const imageName = strIngredient.replace(/\s/g, "%20");
   const imageUrl = `https://www.themealdb.com/images/ingredients/${imageName}.png`;
@@ -20,16 +21,18 @@ const IngredientCard = ({ item }) => {
           borderRadius="10px"
         />
       </Box>
-      <Text
-        w="100%"
-        px={1}
-        fontSize="md"
-        fontWeight="500"
-        transition="all 0.3s"
-        _hover={{ color: "secondary.main", cursor: "pointer" }}
-      >
-        {strIngredient}
-      </Text>
+      <Link href={`ingredients/detail/${idIngredient}`}>
+        <Text
+          w="100%"
+          px={1}
+          fontSize="md"
+          fontWeight="500"
+          transition="all 0.3s"
+          _hover={{ color: "secondary.main", cursor: "pointer" }}
+        >
+          {strIngredient}
+        </Text>
+      </Link>
     </Box>
   );
 };

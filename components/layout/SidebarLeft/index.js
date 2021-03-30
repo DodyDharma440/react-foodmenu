@@ -28,7 +28,7 @@ const Sidebar = () => {
         height="45px"
         mx="auto"
         mb={10}
-        src="assets/images/logo/logo.png"
+        src="/assets/images/logo/logo.png"
         alt="logo"
       />
       {menuItems.map((item, index) => {

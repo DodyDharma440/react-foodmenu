@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, useBreakpointValue } from "@chakra-ui/react";
-import Sidebar from "components/layout/Sidebar";
+import SidebarLeft from "components/layout/SidebarLeft";
 
 const Layout = ({ children }) => {
   const displaySidebar = useBreakpointValue({ base: "none", lg: "block" });
@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
         left="0"
         p={4}
       >
-        <Sidebar />
+        <SidebarLeft />
       </Box>
       <Box ml={displayContent}>{children}</Box>
     </Box>

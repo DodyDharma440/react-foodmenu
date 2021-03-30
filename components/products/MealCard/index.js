@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import axios from "axios";
 import { Box, Text, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
 import { FaYoutube } from "react-icons/fa";
@@ -54,16 +55,18 @@ const MealCard = ({ item }) => {
           </a>
         </Stack>
       </Box>
-      <Text
-        w="100%"
-        px={1}
-        fontSize="md"
-        fontWeight="500"
-        transition="all 0.3s"
-        _hover={{ color: "secondary.main", cursor: "pointer" }}
-      >
-        {strMeal}
-      </Text>
+      <Link href={`/meals/detail/${idMeal}`}>
+        <Text
+          w="100%"
+          px={1}
+          fontSize="md"
+          fontWeight="500"
+          transition="all 0.3s"
+          _hover={{ color: "secondary.main", cursor: "pointer" }}
+        >
+          {strMeal}
+        </Text>
+      </Link>
     </Box>
   );
 };
