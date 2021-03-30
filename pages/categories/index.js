@@ -8,8 +8,6 @@ import GridListContainer from "components/layout/GridListContainer";
 import CategoryCardLarge from "components/products/CategoryCardLarge";
 
 const Categories = ({ categories }) => {
-  console.log(categories);
-
   return (
     <>
       <Head>

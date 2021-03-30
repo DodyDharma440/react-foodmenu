@@ -23,7 +23,15 @@ const Sidebar = () => {
   const arrayPathname = router.pathname.split("/");
 
   return (
-    <div>
+    <Box
+      position="fixed"
+      w="250px"
+      bg="white"
+      top="0"
+      bottom="0"
+      left="0"
+      p={4}
+    >
       <Image
         height="45px"
         mx="auto"
@@ -61,7 +69,7 @@ const Sidebar = () => {
           </Link>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

@@ -7,7 +7,6 @@ const InstructionCard = ({ instructions, tags }) => {
   return (
     <Box bg="white" w="100%" p={4} borderRadius="15px" boxShadow="lg">
       <HeaderMedium title="Instruction" icon={<CgBowl />} />
-      <Divider my={2} />
       <Box mb={4}>
         <Text fontSize="md">{instructions}</Text>
       </Box>

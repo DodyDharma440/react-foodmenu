@@ -3,24 +3,40 @@ import { Box, useBreakpointValue } from "@chakra-ui/react";
 import SidebarLeft from "components/layout/SidebarLeft";
 
 const Layout = ({ children }) => {
-  const displaySidebar = useBreakpointValue({ base: "none", lg: "block" });
-  const displayContent = useBreakpointValue({ base: "0", lg: "250px" });
+  const DisplaySidebar = () => {
+    return (
+      <>
+        {useBreakpointValue({
+          base: <></>,
+          lg: <SidebarLeft />,
+        })}
+      </>
+    );
+  };
+
+  const DisplayContent = () => {
+    return (
+      <>
+        {useBreakpointValue({
+          base: <Box>{children}</Box>,
+          lg: <Box ml="250px">{children}</Box>,
+        })}
+      </>
+    );
+  };
 
   return (
-    <Box bg="#eeeeee" minHeight="100vh" p={6}>
-      <Box
-        display={displaySidebar}
-        position="fixed"
-        w="250px"
-        bg="white"
-        top="0"
-        bottom="0"
-        left="0"
-        p={4}
-      >
-        <SidebarLeft />
-      </Box>
-      <Box ml={displayContent}>{children}</Box>
+    <Box
+      bg="#eeeeee"
+      minHeight="100vh"
+      px={6}
+      py={useBreakpointValue({
+        base: 2,
+        lg: 6,
+      })}
+    >
+      <DisplaySidebar />
+      <DisplayContent />
     </Box>
   );
 };

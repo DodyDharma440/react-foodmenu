@@ -12,8 +12,10 @@ const IngredientList = ({ ingredients, ingredientMeasure }) => {
         {ingredientMeasure.map((item, index) => {
           const { ingredient, measure } = item;
           let ingredientID;
+          const lowerCaseIngredient =
+            ingredient.length > 0 ? ingredient.toLowerCase() : ingredient;
           ingredients.filter((data) => {
-            if (ingredient.toLowerCase() === data.strIngredient.toLowerCase()) {
+            if (lowerCaseIngredient === data.strIngredient.toLowerCase()) {
               return (ingredientID = data.idIngredient);
             }
           });
@@ -28,7 +30,10 @@ const IngredientList = ({ ingredients, ingredientMeasure }) => {
                       : `/ingredients`
                   }
                 >
-                  <Text _hover={{ color: "secondary.main", cursor: "pointer" }}>
+                  <Text
+                    textTransform="capitalize"
+                    _hover={{ color: "secondary.main", cursor: "pointer" }}
+                  >
                     {ingredient}
                   </Text>
                 </Link>

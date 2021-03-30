@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Box, useBreakpointValue } from "@chakra-ui/react";
+import { Box, VStack, useBreakpointValue } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
 import ThumbCard from "components/products/ThumbCard";
@@ -29,7 +29,26 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
           <Box my={2}>
             <ThumbCard image={imageUrl} />
           </Box>
-          <DescriptionCard description={strDescription} />
+          <VStack spacing={4}>
+            <DescriptionCard description={strDescription} />
+            {useBreakpointValue({
+              base: (
+                <Box
+                  bg="white"
+                  w="100%"
+                  p={4}
+                  borderRadius="15px"
+                  boxShadow="lg"
+                >
+                  <MealLists
+                    title={strIngredient}
+                    meals={recommendationMeals}
+                  />
+                </Box>
+              ),
+              lg: <></>,
+            })}
+          </VStack>
         </Box>
 
         {useBreakpointValue({
