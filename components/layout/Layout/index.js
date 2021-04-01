@@ -1,29 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useBreakpointValue } from "@chakra-ui/react";
 import SidebarLeft from "components/layout/SidebarLeft";
 
 const Layout = ({ children }) => {
-  const DisplaySidebar = () => {
-    return (
-      <>
-        {useBreakpointValue({
-          base: <></>,
-          lg: <SidebarLeft />,
-        })}
-      </>
-    );
-  };
+  const [showSidebar, setShowSidebar] = useState(false);
 
-  const DisplayContent = () => {
-    return (
-      <>
-        {useBreakpointValue({
-          base: <Box>{children}</Box>,
-          lg: <Box ml="250px">{children}</Box>,
-        })}
-      </>
-    );
-  };
+  useEffect(() => {
+    if (window.innerWidth >= 992) {
+      setShowSidebar(true);
+    } else {
+      setShowSidebar(false);
+    }
+  }, []);
 
   return (
     <Box
@@ -35,8 +23,8 @@ const Layout = ({ children }) => {
         lg: 6,
       })}
     >
-      <DisplaySidebar />
-      <DisplayContent />
+      {showSidebar && <SidebarLeft />}
+      <Box ml={showSidebar ? "250px" : "0px"}>{children}</Box>
     </Box>
   );
 };
