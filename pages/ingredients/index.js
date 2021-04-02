@@ -9,7 +9,9 @@ import {
   AlertTitle,
   AlertDescription,
   Center,
+  Stack,
   CircularProgress,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
@@ -54,14 +56,17 @@ const Ingredients = ({ ingredients }) => {
       </Head>
 
       <Layout>
-        <Flex mb={5}>
+        <Stack
+          direction={useBreakpointValue({ base: "column", md: "row" })}
+          mb={4}
+        >
           <Box flex="1">
             <Header title="Search and Find Ingredients" />
           </Box>
           <Box>
             <Search fetchSearch={fetchSearch} />
           </Box>
-        </Flex>
+        </Stack>
 
         {loading ? (
           <Center>
@@ -104,7 +109,7 @@ const Ingredients = ({ ingredients }) => {
                 })}
             </GridListContainer>
 
-            <Flex justifyContent="flex-end">
+            <Flex justifyContent="flex-end" mt={4}>
               <DataPagination
                 count={filterIngredients().length}
                 rowsPerPage={rowsPerPage}

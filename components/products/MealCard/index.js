@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
-import { Box, Text, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Text, Stack, useBreakpointValue } from "@chakra-ui/react";
 import { FaYoutube } from "react-icons/fa";
 
 const MealCard = ({ item }) => {
   const { strMeal, strMealThumb, idMeal } = item;
   const [detail, setDetail] = useState({});
 
-  useEffect(async () => {
-    const res = await axios.get(
-      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
-    );
-    await setDetail(res.data.meals[0]);
+  const getDetailData = () => {
+    axios
+      .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`)
+      .then((res) => {
+        setDetail(res.data.meals[0]);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  useEffect(() => {
+    getDetailData();
   }, []);
 
   return (

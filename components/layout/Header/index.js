@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading } from "@chakra-ui/react";
-import styled from "@emotion/styled";
-import theme from "styles/theme";
-
-const GreetingsText = styled.span`
-  color: ${theme.colors.primary.main};
-`;
+import {
+  Box,
+  Heading,
+  Text,
+  HStack,
+  Divider,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 
 const Header = ({ title }) => {
   const [mounted, setMounted] = useState(false);
@@ -37,18 +38,21 @@ const Header = ({ title }) => {
 
   return (
     <Box>
-      <Heading as="h2" size="lg" fontFamily="body">
+      <Heading as="h2" size="lg" fontFamily="body" mb={1}>
         {title === undefined ? (
-          <>
-            <GreetingsText>Good </GreetingsText>
-            {greetings}
-          </>
+          <HStack>
+            <Text color="primary.main">Good</Text> <Text>{greetings}</Text>
+          </HStack>
         ) : (
           <>
             <span>{title}</span>
           </>
         )}
       </Heading>
+      {useBreakpointValue({
+        base: <Divider borderColor="secondary.main" borderWidth="1px" />,
+        lg: <></>,
+      })}
     </Box>
   );
 };

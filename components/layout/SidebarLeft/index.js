@@ -2,23 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
-import {
-  BiHomeAlt,
-  BiListUl,
-  BiFoodMenu,
-  BiPalette,
-  BiHeart,
-} from "react-icons/bi";
 
-const menuItems = [
-  { path: "/", icon: <BiHomeAlt />, label: "Home" },
-  { path: "/categories", icon: <BiListUl />, label: "Categories" },
-  { path: "/meals", icon: <BiFoodMenu />, label: "Meals" },
-  { path: "/ingredients", icon: <BiPalette />, label: "Ingredients" },
-  { path: "/favourites", icon: <BiHeart />, label: "Favourites" },
-];
-
-const Sidebar = () => {
+const Sidebar = ({ menuItems }) => {
   const router = useRouter();
   const arrayPathname = router.pathname.split("/");
 

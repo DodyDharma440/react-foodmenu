@@ -93,7 +93,9 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           <Text>{rangePerPage()}</Text>
         </Box>
         <IconButton
-          isDisabled={page === totalPage ? true : false}
+          isDisabled={
+            count === rowsPerPage || page === totalPage ? true : false
+          }
           onClick={(e) => handleChangePage(e, "next")}
           bg="secondary.main"
           color="white"
@@ -107,7 +109,9 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           icon={<HiChevronRight fontSize="30px" />}
         />
         <IconButton
-          isDisabled={page === totalPage ? true : false}
+          isDisabled={
+            count === rowsPerPage || page === totalPage ? true : false
+          }
           onClick={(e) => handleChangeLastPage(e)}
           bg="secondary.main"
           color="white"

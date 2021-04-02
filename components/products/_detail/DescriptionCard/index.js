@@ -17,23 +17,28 @@ const DescriptionCard = ({ description, title, icon, type, tags }) => {
       </Box>
 
       {tags !== undefined && tags !== null && (
-        <HStack>
-          <Text fontSize="sm">Tags: </Text>
-          {tags.map((tag, index) => {
-            return (
-              <div key={index}>
-                <Tag
-                  size="sm"
-                  variant="solid"
-                  bg="primary.main"
-                  color="gray.800"
-                >
-                  {tag}
-                </Tag>
-              </div>
-            );
-          })}
-        </HStack>
+        <>
+          <Text fontSize="sm" mb={2}>
+            Tags:
+          </Text>
+          <HStack flexWrap="wrap">
+            {tags.map((tag, index) => {
+              return (
+                <Box key={index}>
+                  <Tag
+                    size="sm"
+                    variant="solid"
+                    bg="primary.main"
+                    color="gray.800"
+                    ml="0px"
+                  >
+                    {tag}
+                  </Tag>
+                </Box>
+              );
+            })}
+          </HStack>
+        </>
       )}
     </Box>
   );

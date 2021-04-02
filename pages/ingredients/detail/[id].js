@@ -11,8 +11,6 @@ import DescriptionCard from "components/products/_detail/DescriptionCard";
 import MealLists from "components/products/_detail/MealLists";
 
 const DetailIngredient = ({ ingredient, recommendationMeals }) => {
-  console.log(recommendationMeals);
-
   const dataIngredient = ingredient[0];
   const { strIngredient, idIngredient, strDescription } = dataIngredient;
   const imageName = strIngredient.replace(/\s/g, "%20");

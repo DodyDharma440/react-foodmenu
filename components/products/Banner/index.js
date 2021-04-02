@@ -14,11 +14,19 @@ const Banner = ({ item }) => {
   const { strMeal, strMealThumb, idMeal } = item;
   const [detail, setDetail] = useState({});
 
-  useEffect(async () => {
-    const res = await axios.get(
-      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
-    );
-    await setDetail(res.data.meals[0]);
+  const getDetailData = () => {
+    axios
+      .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`)
+      .then((res) => {
+        setDetail(res.data.meals[0]);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  useEffect(() => {
+    getDetailData();
   }, []);
 
   return (
@@ -95,7 +103,7 @@ const Banner = ({ item }) => {
               borderRadius="20px"
               bgImage={`url(${strMealThumb})`}
               bgSize="cover"
-            ></Box>
+            />
           </GridItem>
         </Grid>
       </Box>

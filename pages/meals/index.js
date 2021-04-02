@@ -3,14 +3,14 @@ import axios from "axios";
 import Head from "next/head";
 import {
   Box,
-  Flex,
   Center,
   CircularProgress,
-  Text,
+  Stack,
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
@@ -73,14 +73,14 @@ const Meal = ({ categories }) => {
       </Head>
 
       <Layout>
-        <Flex mb={5}>
+        <Stack direction={useBreakpointValue({ base: "column", md: "row" })}>
           <Box flex="1">
             <Header title="Find and Explore the Meals You Want" />
           </Box>
           <Box>
             <Search fetchSearch={fetchSearch} />
           </Box>
-        </Flex>
+        </Stack>
 
         <HorizontalListContainer>
           {categories.map((category, index) => (

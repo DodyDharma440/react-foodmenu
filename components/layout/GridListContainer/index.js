@@ -19,7 +19,7 @@ const MenuList = ({ children, title, moreLink }) => {
   });
 
   return (
-    <Box mb={8}>
+    <Box>
       <Flex>
         <Heading flex="1" as="h3" fontSize="xl" fontFamily="body" mb={4}>
           {title ? title : "Title"}
