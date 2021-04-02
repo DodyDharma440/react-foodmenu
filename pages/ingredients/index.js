@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
-import Search from "components/search/Search";
+import Search from "components/products/Search";
 import GridListContainer from "components/layout/GridListContainer";
 import IngredientCard from "components/products/IngredientCard";
 import DataPagination from "components/common/DataPagination";

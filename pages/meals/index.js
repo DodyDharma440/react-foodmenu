@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
-import Search from "components/search/Search";
+import Search from "components/products/Search";
 import HorizontalListContainer from "components/layout/HorizontalListContainer";
 import GridListContainer from "components/layout/GridListContainer";
 import CategoryCard from "components/products/CategoryCard";

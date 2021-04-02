@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import axios from "axios";
 import {
   Box,
@@ -12,13 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { BiListUl } from "react-icons/bi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { CgBowl } from "react-icons/cg";
 import { AiFillYoutube } from "react-icons/ai";
 import Layout from "components/layout/Layout";
 import Header from "components/layout/Header";
 import SidebarRight from "components/layout/SidebarRight";
 import ThumbCard from "components/products/ThumbCard";
-import IngredientList from "components/products/_detail/meals/IngredientList";
-import InstructionCard from "components/products/_detail/meals/InstructionCard";
+import IngredientLists from "components/products/_detail/IngredientLists";
+import DescriptionCard from "components/products/_detail/DescriptionCard";
 
 const DetailMeal = ({ meal, ingredients }) => {
   const {
@@ -119,6 +121,10 @@ const DetailMeal = ({ meal, ingredients }) => {
 
   return (
     <>
+      <Head>
+        <title>FooDY | {strMeal}</title>
+      </Head>
+
       <Layout>
         <Box
           mr={useBreakpointValue({
@@ -165,7 +171,13 @@ const DetailMeal = ({ meal, ingredients }) => {
           </Flex>
 
           <VStack spacing={4}>
-            <InstructionCard instructions={strInstructions} tags={tags} />
+            <DescriptionCard
+              description={strInstructions}
+              title="Instruction"
+              icon={<CgBowl />}
+              type="meal"
+              tags={tags}
+            />
             {useBreakpointValue({
               base: (
                 <Box
@@ -175,7 +187,7 @@ const DetailMeal = ({ meal, ingredients }) => {
                   borderRadius="15px"
                   boxShadow="lg"
                 >
-                  <IngredientList
+                  <IngredientLists
                     ingredients={ingredients}
                     ingredientMeasure={ingredientMeasure}
                   />
@@ -190,7 +202,7 @@ const DetailMeal = ({ meal, ingredients }) => {
           base: <></>,
           lg: (
             <SidebarRight>
-              <IngredientList
+              <IngredientLists
                 ingredients={ingredients}
                 ingredientMeasure={ingredientMeasure}
               />

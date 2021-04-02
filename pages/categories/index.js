@@ -26,7 +26,7 @@ const Categories = ({ categories }) => {
 
         <GridListContainer title="Category Lists">
           {categories.map((category, index) => {
-            return <CategoryCardLarge category={category} />;
+            return <CategoryCardLarge key={index} category={category} />;
           })}
         </GridListContainer>
       </Layout>

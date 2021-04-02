@@ -1,16 +1,22 @@
 import React from "react";
-import { Box, Divider, HStack, Tag, Text } from "@chakra-ui/react";
-import { CgBowl } from "react-icons/cg";
+import { Box, Text, Center, HStack, Tag } from "@chakra-ui/react";
 import HeaderMedium from "components/common/HeaderMedium";
 
-const InstructionCard = ({ instructions, tags }) => {
+const DescriptionCard = ({ description, title, icon, type, tags }) => {
   return (
     <Box bg="white" w="100%" p={4} borderRadius="15px" boxShadow="lg">
-      <HeaderMedium title="Instruction" icon={<CgBowl />} />
+      <HeaderMedium title={title} icon={icon} />
       <Box mb={4}>
-        <Text fontSize="md">{instructions}</Text>
+        {description !== null ? (
+          <Text fontSize="md">{description}</Text>
+        ) : (
+          <Center height="100px">
+            <Text color="gray.400">No description about this {type}.</Text>
+          </Center>
+        )}
       </Box>
-      {tags !== null && (
+
+      {tags !== undefined && tags !== null && (
         <HStack>
           <Text fontSize="sm">Tags: </Text>
           {tags.map((tag, index) => {
@@ -33,4 +39,4 @@ const InstructionCard = ({ instructions, tags }) => {
   );
 };
 
-export default InstructionCard;
+export default DescriptionCard;

@@ -4,10 +4,10 @@ import { BiFoodMenu } from "react-icons/bi";
 import HeaderMedium from "components/common/HeaderMedium";
 import MealCard from "components/products/MealCard";
 
-const MealLists = ({ title, meals }) => {
+const MealLists = ({ title, meals, type }) => {
   return (
     <>
-      <HeaderMedium title={`Meals With ${title}`} icon={<BiFoodMenu />} />
+      <HeaderMedium title={title} icon={<BiFoodMenu />} />
       {meals !== null ? (
         <Grid templateColumns="repeat(2, 1fr)" gap={3}>
           {meals.map((meal, index) => {
@@ -16,7 +16,7 @@ const MealLists = ({ title, meals }) => {
         </Grid>
       ) : (
         <Center>
-          <Text color="gray.400">No meals with this ingredient.</Text>
+          <Text color="gray.400">No meals with this {type}.</Text>
         </Center>
       )}
     </>

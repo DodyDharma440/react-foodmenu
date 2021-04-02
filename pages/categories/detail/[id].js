@@ -1,27 +1,28 @@
 import React from "react";
 import Head from "next/head";
 import axios from "axios";
-import { Box, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { GrTextAlignLeft } from "react-icons/gr";
 import Layout from "components/layout/Layout";
+import SidebarRight from "components/layout/SidebarRight";
 import Header from "components/layout/Header";
 import ThumbCard from "components/products/ThumbCard";
-import SidebarRight from "components/layout/SidebarRight";
 import DescriptionCard from "components/products/_detail/DescriptionCard";
 import MealLists from "components/products/_detail/MealLists";
 
-const DetailIngredient = ({ ingredient, recommendationMeals }) => {
-  console.log(recommendationMeals);
-
-  const dataIngredient = ingredient[0];
-  const { strIngredient, idIngredient, strDescription } = dataIngredient;
-  const imageName = strIngredient.replace(/\s/g, "%20");
-  const imageUrl = `https://www.themealdb.com/images/ingredients/${imageName}.png`;
+const DetailCategory = ({ category, recommendationMeals }) => {
+  const dataCategory = category[0];
+  const {
+    strCategory,
+    strCategoryThumb,
+    idCategory,
+    strCategoryDescription,
+  } = dataCategory;
 
   return (
     <>
       <Head>
-        <title>FooDY | {strIngredient}</title>
+        <title>FooDY | {strCategory}</title>
       </Head>
 
       <Layout>
@@ -31,16 +32,16 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
             lg: "450px",
           })}
         >
-          <Header title={strIngredient} />
+          <Header title={strCategory} />
           <Box my={2}>
-            <ThumbCard image={imageUrl} />
+            <ThumbCard image={strCategoryThumb} />
           </Box>
           <VStack spacing={4}>
             <DescriptionCard
-              description={strDescription}
+              description={strCategoryDescription}
               title="Description"
               icon={<GrTextAlignLeft />}
-              type="ingredient"
+              type="category"
             />
             {useBreakpointValue({
               base: (
@@ -52,9 +53,9 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
                   boxShadow="lg"
                 >
                   <MealLists
-                    title={`Meals With ${strIngredient}`}
+                    title={`Meals in Category ${strCategory}`}
                     meals={recommendationMeals}
-                    type="ingredient"
+                    type="category"
                   />
                 </Box>
               ),
@@ -68,9 +69,9 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
           lg: (
             <SidebarRight>
               <MealLists
-                title={`Meals With ${strIngredient}`}
+                title={`Meals in Category ${strCategory}`}
                 meals={recommendationMeals}
-                type="ingredient"
+                type="category"
               />
             </SidebarRight>
           ),
@@ -80,28 +81,26 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
   );
 };
 
-export default DetailIngredient;
+export default DetailCategory;
 
 export async function getServerSideProps(context) {
-  const res = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
+  const resCategories = await axios.get(
+    "https://www.themealdb.com/api/json/v1/1/categories.php"
   );
-  const ingredients = await res.data.meals;
-  const ingredient = ingredients.filter((ingredient) => {
-    return ingredient.idIngredient === context.params.id;
+  const categories = await resCategories.data.categories;
+  const category = categories.filter((category) => {
+    return category.idCategory === context.params.id;
   });
 
-  const ingredientName = ingredient[0].strIngredient
-    .toLowerCase()
-    .replace(/\s/g, "%20");
+  const categoryName = category[0].strCategory;
   const resRecommendation = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredientName}`
+    `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`
   );
   const recommendationMeals = await resRecommendation.data.meals;
 
   return {
     props: {
-      ingredient,
+      category,
       recommendationMeals,
     },
   };
