@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex, useColorModeValue } from "@chakra-ui/react";
+import FavouriteButton from "components/common/FavouriteButton";
 
 const IngredientCard = ({ item }) => {
   const { strIngredient, idIngredient } = item;
@@ -10,7 +11,12 @@ const IngredientCard = ({ item }) => {
 
   return (
     <Box w="100%">
-      <Box bg="white" borderRadius="10px" p={4} boxShadow="md" mb={1}>
+      <Box
+        bg={useColorModeValue("white", "gray.800")}
+        borderRadius="10px"
+        p={4}
+        boxShadow="md"
+        mb={1}>
         <Box
           bgColor="gray.200"
           bgImage={`url(${imageUrl})`}
@@ -20,6 +26,14 @@ const IngredientCard = ({ item }) => {
           w="100%"
           borderRadius="10px"
         />
+        {/* <Flex pt={1} justifyContent="flex-end">
+          <Box fontSize="xl">
+            <FavouriteButton
+              dataBody={{ strIngredient, idIngredient }}
+              isIngredient
+            />
+          </Box>
+        </Flex> */}
       </Box>
       <Link href={`ingredients/detail/${idIngredient}`}>
         <Text
@@ -28,8 +42,7 @@ const IngredientCard = ({ item }) => {
           fontSize="md"
           fontWeight="500"
           transition="all 0.3s"
-          _hover={{ color: "secondary.main", cursor: "pointer" }}
-        >
+          _hover={{ color: "secondary.main", cursor: "pointer" }}>
           {strIngredient}
         </Text>
       </Link>

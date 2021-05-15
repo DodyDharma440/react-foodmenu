@@ -4,10 +4,10 @@ import {
   HiChevronLeft,
   HiChevronRight,
   HiChevronDoubleLeft,
-  HiChevronDoubleRight,
+  HiChevronDoubleRight
 } from "react-icons/hi";
 
-const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
+const DataPagination = ({ count, rowsPerPage, page, changePage, ...props }) => {
   const [firstRangePerPage, setFirstRangePerPage] = useState(1);
   const [secondRangePerPage, setSecondRangePerPage] = useState(rowsPerPage);
 
@@ -59,7 +59,7 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
   };
 
   return (
-    <Box>
+    <Box {...props}>
       <HStack spacing="5px">
         <IconButton
           isDisabled={page === 0 ? true : false}
@@ -68,10 +68,10 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           color="white"
           borderRadius="50%"
           _hover={{
-            background: "secondary.light",
+            background: "secondary.light"
           }}
           _active={{
-            background: "secondary.dark",
+            background: "secondary.dark"
           }}
           icon={<HiChevronDoubleLeft fontSize="30px" />}
         />
@@ -82,10 +82,10 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           color="white"
           borderRadius="50%"
           _hover={{
-            background: "secondary.light",
+            background: "secondary.light"
           }}
           _active={{
-            background: "secondary.dark",
+            background: "secondary.dark"
           }}
           icon={<HiChevronLeft fontSize="30px" />}
         />
@@ -101,10 +101,10 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           color="white"
           borderRadius="50%"
           _hover={{
-            background: "secondary.light",
+            background: "secondary.light"
           }}
           _active={{
-            background: "secondary.dark",
+            background: "secondary.dark"
           }}
           icon={<HiChevronRight fontSize="30px" />}
         />
@@ -117,10 +117,10 @@ const DataPagination = ({ count, rowsPerPage, page, changePage }) => {
           color="white"
           borderRadius="50%"
           _hover={{
-            background: "secondary.light",
+            background: "secondary.light"
           }}
           _active={{
-            background: "secondary.dark",
+            background: "secondary.dark"
           }}
           icon={<HiChevronDoubleRight fontSize="30px" />}
         />

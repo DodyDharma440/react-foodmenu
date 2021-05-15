@@ -1,10 +1,23 @@
 import React from "react";
-import { Box, Text, Center, HStack, Tag } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Center,
+  HStack,
+  Tag,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import HeaderMedium from "components/common/HeaderMedium";
 
 const DescriptionCard = ({ description, title, icon, type, tags }) => {
   return (
-    <Box bg="white" w="100%" p={4} borderRadius="15px" boxShadow="lg">
+    <Box
+      bg={useColorModeValue("white", "gray.800")}
+      w="100%"
+      p={4}
+      borderRadius="15px"
+      boxShadow="lg"
+    >
       <HeaderMedium title={title} icon={icon} />
       <Box mb={4}>
         {description !== null ? (

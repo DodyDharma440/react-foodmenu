@@ -32,7 +32,7 @@
 }
 
 /* Remove these to get rid of the spinner */
-#nprogress .spinner {
+/* #nprogress .spinner {
   display: block;
   position: fixed;
   z-index: 1031;
@@ -52,9 +52,9 @@
 
   -webkit-animation: nprogress-spinner 400ms linear infinite;
   animation: nprogress-spinner 400ms linear infinite;
-}
+} */
 
-.nprogress-custom-parent {
+/* .nprogress-custom-parent {
   overflow: hidden;
   position: relative;
 }
@@ -79,4 +79,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
+} */

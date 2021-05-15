@@ -1,9 +1,10 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-const HorizontalListContainer = ({ children }) => {
+const HorizontalListContainer = ({ children, ...props }) => {
   return (
     <Box
+      {...props}
       overflow="auto"
       whiteSpace="nowrap"
       mb={3}
@@ -11,14 +12,13 @@ const HorizontalListContainer = ({ children }) => {
         "&::-webkit-scrollbar": {
           height: "10px",
           borderRadius: "8px",
-          backgroundColor: "gray.300",
+          backgroundColor: "gray.300"
         },
         "&::-webkit-scrollbar-thumb": {
           borderRadius: "8px",
-          backgroundColor: "primary.main",
-        },
-      }}
-    >
+          backgroundColor: "primary.main"
+        }
+      }}>
       {children}
     </Box>
   );

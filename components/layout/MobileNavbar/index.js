@@ -1,43 +1,66 @@
 import React from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  Center,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerBody,
+  useColorModeValue,
+  useDisclosure
+} from "@chakra-ui/react";
+import { HiMenu } from "react-icons/hi";
+import SidebarContent from "components/layout/SidebarContent";
 
 const MobileNavbar = ({ menuItems }) => {
-  const router = useRouter();
-  const arrayPathname = router.pathname.split("/");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box
       position="fixed"
-      bottom="0px"
+      top="0px"
       left="0px"
       right="0px"
       zIndex="1000"
-      bgColor="white"
-      boxShadow="0px 0px 7px 0px #8b8b8b"
-      p={2}
-    >
-      <Flex>
-        {menuItems.map((item, index) => {
-          return (
-            <Link key={index} href={item.path}>
-              <Box
-                p={2}
-                w={`calc(100% / ${menuItems.length})`}
-                fontSize="xl"
-                borderRadius="15px"
-                bg={
-                  arrayPathname[1] === item.path.slice(1)
-                    ? "primary.main"
-                    : "transparent"
-                }
-              >
-                {item.icon}
-              </Box>
-            </Link>
-          );
-        })}
+      bgColor={useColorModeValue("white", "gray.800")}
+      boxShadow="sm"
+      p={2}>
+      <Flex justifyContent="center">
+        <Center ml={2} mr={4} _hover={{ cursor: "pointer" }} onClick={onOpen}>
+          <Text fontSize="2xl">
+            <HiMenu />
+          </Text>
+        </Center>
+        <Box flex="1">
+          <Box
+            bg="white"
+            py={1}
+            ml="auto"
+            maxWidth="120px"
+            borderRadius="8px"
+            border="1px solid"
+            borderColor="gray.300">
+            <Image
+              h="25px"
+              mx="auto"
+              src="/assets/images/logo/logo.png"
+              alt="logo"
+            />
+          </Box>
+        </Box>
+
+        <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+          <DrawerOverlay>
+            <DrawerContent>
+              <DrawerBody display="flex" flexDirection="column">
+                <SidebarContent menuItems={menuItems} />
+              </DrawerBody>
+            </DrawerContent>
+          </DrawerOverlay>
+        </Drawer>
       </Flex>
     </Box>
   );

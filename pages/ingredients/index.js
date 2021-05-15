@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import axios from "axios";
+import * as api from "api";
 import {
-  Box,
-  Flex,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -11,20 +10,17 @@ import {
   Center,
   Stack,
   CircularProgress,
-  useBreakpointValue,
+  useBreakpointValue
 } from "@chakra-ui/react";
-import Layout from "components/layout/Layout";
-import Header from "components/layout/Header";
-import Search from "components/products/Search";
-import GridListContainer from "components/layout/GridListContainer";
-import IngredientCard from "components/products/IngredientCard";
-import DataPagination from "components/common/DataPagination";
+import { Layout, Header, GridListContainer } from "components/layout";
+import { Search, IngredientCard } from "components/products";
+import { DataPagination } from "components/common";
 
 const Ingredients = ({ ingredients }) => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const rowsPerPage = 25;
+  const rowsPerPage = 10;
 
   const filterIngredients = () => {
     return ingredients.filter((ingredient) => {
@@ -46,7 +42,9 @@ const Ingredients = ({ ingredients }) => {
   };
 
   const handleChangePage = (newPage) => {
+    setLoading(true);
     setPage(newPage);
+    setTimeout(() => setLoading(false), 1000);
   };
 
   return (
@@ -58,14 +56,9 @@ const Ingredients = ({ ingredients }) => {
       <Layout>
         <Stack
           direction={useBreakpointValue({ base: "column", md: "row" })}
-          mb={4}
-        >
-          <Box flex="1">
-            <Header title="Search and Find Ingredients" />
-          </Box>
-          <Box>
-            <Search fetchSearch={fetchSearch} />
-          </Box>
+          mb={4}>
+          <Header flex="1" title="Search and Find Ingredients" />
+          <Search fetchSearch={fetchSearch} />
         </Stack>
 
         {loading ? (
@@ -88,8 +81,7 @@ const Ingredients = ({ ingredients }) => {
             height="200px"
             p={6}
             borderRadius="15px"
-            w="100%"
-          >
+            w="100%">
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
               Search Ingredients Failed
@@ -108,16 +100,19 @@ const Ingredients = ({ ingredients }) => {
                   return <IngredientCard key={index} item={ingredient} />;
                 })}
             </GridListContainer>
-
-            <Flex justifyContent="flex-end" mt={4}>
-              <DataPagination
-                count={filterIngredients().length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                changePage={handleChangePage}
-              />
-            </Flex>
           </>
+        )}
+
+        {filterIngredients().length > 0 && (
+          <DataPagination
+            display="flex"
+            justifyContent="flex-end"
+            mt={4}
+            count={filterIngredients().length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            changePage={handleChangePage}
+          />
         )}
       </Layout>
     </>
@@ -127,14 +122,12 @@ const Ingredients = ({ ingredients }) => {
 export default Ingredients;
 
 export async function getStaticProps() {
-  const res = await axios.get(
-    "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
-  );
+  const res = await api.getIngredientList();
   const ingredients = await res.data.meals;
 
   return {
     props: {
-      ingredients,
-    },
+      ingredients
+    }
   };
 }

@@ -1,11 +1,9 @@
 import React from "react";
 import Head from "next/head";
-import axios from "axios";
-import { Box, Text, Flex } from "@chakra-ui/react";
-import Layout from "components/layout/Layout";
-import Header from "components/layout/Header";
-import GridListContainer from "components/layout/GridListContainer";
-import CategoryCardLarge from "components/products/CategoryCardLarge";
+import * as api from "api";
+import { Flex } from "@chakra-ui/react";
+import { Layout, Header, GridListContainer } from "components/layout";
+import { CategoryCardLarge } from "components/products";
 
 const Categories = ({ categories }) => {
   return (
@@ -16,12 +14,7 @@ const Categories = ({ categories }) => {
 
       <Layout>
         <Flex mb={5}>
-          <Box flex="1">
-            <Header title="See All Categories" />
-          </Box>
-          {/* <Box>
-            <Search fetchSearch={fetchSearch} />
-          </Box> */}
+          <Header flex="1" title="See All Categories" />
         </Flex>
 
         <GridListContainer title="Category Lists">
@@ -37,14 +30,12 @@ const Categories = ({ categories }) => {
 export default Categories;
 
 export async function getStaticProps() {
-  const resCategory = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/categories.php`
-  );
+  const resCategory = await api.getCategoryList();
   const categories = await resCategory.data.categories;
 
   return {
     props: {
-      categories,
-    },
+      categories
+    }
   };
 }

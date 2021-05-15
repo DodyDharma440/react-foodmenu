@@ -1,13 +1,18 @@
 import React from "react";
-import { Box, Text, VStack, Center } from "@chakra-ui/react";
+import { Box, Text, VStack, Center, useColorModeValue } from "@chakra-ui/react";
 
 const CategoryCard = ({ category, currentCategory, handleCategoryClick }) => {
   const { strCategory, strCategoryThumb } = category;
 
   return (
     <Box
-      bg={currentCategory === strCategory ? "primary.main" : "white"}
+      bg={
+        currentCategory === strCategory
+          ? "primary.main"
+          : useColorModeValue("white", "gray.800")
+      }
       boxShadow="md"
+      color={currentCategory === strCategory && "black"}
       w="100px"
       minHeight="100px"
       mx={2}
@@ -19,8 +24,6 @@ const CategoryCard = ({ category, currentCategory, handleCategoryClick }) => {
       p={3}
       _hover={{
         cursor: "pointer",
-        background:
-          currentCategory === strCategory ? "primary.main" : "gray.100",
         transform: "scale(1.1)",
       }}
       _active={{

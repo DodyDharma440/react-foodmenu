@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 
 const SidebarRight = ({ children }) => {
   return (
@@ -9,7 +9,7 @@ const SidebarRight = ({ children }) => {
       bottom="0"
       right="0"
       top="0"
-      bg="white"
+      bg={useColorModeValue("white", "gray.800")}
       p={6}
       boxShadow="2xl"
       borderLeft="3px solid"

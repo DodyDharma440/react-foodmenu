@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 const CategoryCardLarge = ({ category }) => {
   const { strCategory, strCategoryThumb, idCategory } = category;
@@ -9,9 +9,8 @@ const CategoryCardLarge = ({ category }) => {
     <Box w="100%">
       <Link href={`/categories/detail/${idCategory}`}>
         <Box
-          bgColor="white"
+          bgColor={useColorModeValue("white", "gray.800")}
           borderRadius="15px"
-          color="black"
           boxShadow="lg"
           transition="0.5s"
           _hover={{
@@ -36,7 +35,7 @@ const CategoryCardLarge = ({ category }) => {
             <Box
               w="70%"
               h="70%"
-              bgColor="white"
+              bgColor={useColorModeValue("white", "gray.800")}
               borderRadius="50%"
               mx="auto"
               bgImage={`url(${strCategoryThumb})`}

@@ -1,23 +1,21 @@
 import React from "react";
 import Head from "next/head";
-import axios from "axios";
-import { Box, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import * as api from "api";
+import {
+  Box,
+  VStack,
+  useBreakpointValue,
+  useColorModeValue
+} from "@chakra-ui/react";
 import { GrTextAlignLeft } from "react-icons/gr";
-import Layout from "components/layout/Layout";
-import SidebarRight from "components/layout/SidebarRight";
-import Header from "components/layout/Header";
-import ThumbCard from "components/products/ThumbCard";
-import DescriptionCard from "components/products/_detail/DescriptionCard";
-import MealLists from "components/products/_detail/MealLists";
+import { Layout, SidebarRight, Header } from "components/layout";
+import { ThumbCard } from "components/products";
+import { MealLists, DescriptionCard } from "components/products/_detail";
 
 const DetailCategory = ({ category, recommendationMeals }) => {
   const dataCategory = category[0];
-  const {
-    strCategory,
-    strCategoryThumb,
-    idCategory,
-    strCategoryDescription,
-  } = dataCategory;
+  const { strCategory, strCategoryThumb, idCategory, strCategoryDescription } =
+    dataCategory;
 
   return (
     <>
@@ -29,13 +27,10 @@ const DetailCategory = ({ category, recommendationMeals }) => {
         <Box
           mr={useBreakpointValue({
             base: "0px",
-            lg: "450px",
-          })}
-        >
+            lg: "450px"
+          })}>
           <Header title={strCategory} />
-          <Box my={2}>
-            <ThumbCard image={strCategoryThumb} />
-          </Box>
+          <ThumbCard my={2} image={strCategoryThumb} />
           <VStack spacing={4}>
             <DescriptionCard
               description={strCategoryDescription}
@@ -45,21 +40,18 @@ const DetailCategory = ({ category, recommendationMeals }) => {
             />
             {useBreakpointValue({
               base: (
-                <Box
-                  bg="white"
+                <MealLists
+                  bg={useColorModeValue("white", "gray.800")}
                   w="100%"
                   p={4}
                   borderRadius="15px"
                   boxShadow="lg"
-                >
-                  <MealLists
-                    title={`Meals in Category ${strCategory}`}
-                    meals={recommendationMeals}
-                    type="category"
-                  />
-                </Box>
+                  title={`Meals in Category ${strCategory}`}
+                  meals={recommendationMeals}
+                  type="category"
+                />
               ),
-              lg: <></>,
+              lg: <></>
             })}
           </VStack>
         </Box>
@@ -74,7 +66,7 @@ const DetailCategory = ({ category, recommendationMeals }) => {
                 type="category"
               />
             </SidebarRight>
-          ),
+          )
         })}
       </Layout>
     </>
@@ -84,24 +76,20 @@ const DetailCategory = ({ category, recommendationMeals }) => {
 export default DetailCategory;
 
 export async function getServerSideProps(context) {
-  const resCategories = await axios.get(
-    "https://www.themealdb.com/api/json/v1/1/categories.php"
-  );
+  const resCategories = await api.getCategoryList();
   const categories = await resCategories.data.categories;
   const category = categories.filter((category) => {
     return category.idCategory === context.params.id;
   });
 
   const categoryName = category[0].strCategory;
-  const resRecommendation = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`
-  );
+  const resRecommendation = await api.getMealsByCategory(categoryName);
   const recommendationMeals = await resRecommendation.data.meals;
 
   return {
     props: {
       category,
-      recommendationMeals,
-    },
+      recommendationMeals
+    }
   };
 }

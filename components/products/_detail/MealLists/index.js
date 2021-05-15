@@ -1,12 +1,12 @@
 import React from "react";
-import { Grid, Center, Text } from "@chakra-ui/react";
+import { Grid, Center, Text, Box } from "@chakra-ui/react";
 import { BiFoodMenu } from "react-icons/bi";
 import HeaderMedium from "components/common/HeaderMedium";
 import MealCard from "components/products/MealCard";
 
-const MealLists = ({ title, meals, type }) => {
+const MealLists = ({ title, meals, type, ...props }) => {
   return (
-    <>
+    <Box {...props}>
       <HeaderMedium title={title} icon={<BiFoodMenu />} />
       {meals !== null ? (
         <Grid templateColumns="repeat(2, 1fr)" gap={3}>
@@ -19,7 +19,7 @@ const MealLists = ({ title, meals, type }) => {
           <Text color="gray.400">No meals with this {type}.</Text>
         </Center>
       )}
-    </>
+    </Box>
   );
 };
 

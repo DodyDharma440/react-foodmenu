@@ -4,9 +4,9 @@ import { Box, Flex, Divider, Text, Spacer } from "@chakra-ui/react";
 import { BiPalette } from "react-icons/bi";
 import HeaderMedium from "components/common/HeaderMedium";
 
-const IngredientList = ({ ingredients, ingredientMeasure }) => {
+const IngredientList = ({ ingredients, ingredientMeasure, ...props }) => {
   return (
-    <>
+    <Box {...props}>
       <HeaderMedium title="Ingredients" icon={<BiPalette />} />
       <Box>
         {ingredientMeasure.map((item, index) => {
@@ -28,12 +28,10 @@ const IngredientList = ({ ingredients, ingredientMeasure }) => {
                     ingredientID !== undefined
                       ? `/ingredients/detail/${ingredientID}`
                       : `/ingredients`
-                  }
-                >
+                  }>
                   <Text
                     textTransform="capitalize"
-                    _hover={{ color: "secondary.main", cursor: "pointer" }}
-                  >
+                    _hover={{ color: "secondary.main", cursor: "pointer" }}>
                     {ingredient}
                   </Text>
                 </Link>
@@ -45,7 +43,7 @@ const IngredientList = ({ ingredients, ingredientMeasure }) => {
           ) : null;
         })}
       </Box>
-    </>
+    </Box>
   );
 };
 

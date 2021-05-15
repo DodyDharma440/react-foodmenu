@@ -5,6 +5,7 @@ import {
   InputRightElement,
   InputLeftElement,
   Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { BiSearch, BiX } from "react-icons/bi";
 
@@ -30,12 +31,12 @@ const Search = ({ fetchSearch }) => {
           <Input
             variant="filled"
             borderRadius="15px"
-            bgColor="#fafafa"
+            bgColor={useColorModeValue("gray.200", "gray.800")}
             _hover={{
-              background: "#fafafa",
+              background: useColorModeValue("gray.200", "gray.800"),
             }}
             _focus={{
-              background: "#fff",
+              background: useColorModeValue("white", "gray.900"),
             }}
             placeholder="Search by name..."
             onChange={(e) => handleInputChange(e)}

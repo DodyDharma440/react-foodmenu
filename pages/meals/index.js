@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import * as api from "api";
 import Head from "next/head";
 import {
-  Box,
   Center,
   CircularProgress,
   Stack,
@@ -10,51 +10,47 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
-  useBreakpointValue,
+  useBreakpointValue
 } from "@chakra-ui/react";
-import Layout from "components/layout/Layout";
-import Header from "components/layout/Header";
-import Search from "components/products/Search";
-import HorizontalListContainer from "components/layout/HorizontalListContainer";
-import GridListContainer from "components/layout/GridListContainer";
-import CategoryCard from "components/products/CategoryCard";
-import MealCard from "components/products/MealCard";
+import {
+  Layout,
+  Header,
+  HorizontalListContainer,
+  GridListContainer
+} from "components/layout";
+import { Search, CategoryCard, MealCard } from "components/products";
 
-const Meal = ({ categories }) => {
+const Meals = ({ categories }) => {
   const [currentCategory, setCurrentCategory] = useState("Beef");
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const fetchMeals = (currentCategory) => {
+  const fetchMeals = async (currentCategory) => {
     setLoading(true);
-    axios
-      .get(
-        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${currentCategory}`
-      )
-      .then((res) => {
-        setMeals(res.data.meals);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setErrorMessage(err.message);
-        setLoading(false);
-      });
+
+    try {
+      const { data } = await api.getMealsByCategory(currentCategory);
+      setMeals(data.meals);
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
   };
 
-  const fetchSearch = (inputValue) => {
+  const fetchSearch = async (inputValue) => {
     setCurrentCategory("");
     setLoading(true);
-    axios
-      .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
-      .then((res) => {
-        setMeals(res.data.meals);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setErrorMessage(err.message);
-        setLoading(false);
-      });
+
+    try {
+      const { data } = await api.searchMeals(inputValue);
+      setMeals(data.meals);
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage(err.message);
+      setLoading(false);
+    }
   };
 
   const handleCategoryClick = (category) => {
@@ -64,7 +60,7 @@ const Meal = ({ categories }) => {
 
   useEffect(() => {
     fetchMeals(currentCategory);
-  }, []);
+  }, [currentCategory]);
 
   return (
     <>
@@ -74,12 +70,8 @@ const Meal = ({ categories }) => {
 
       <Layout>
         <Stack direction={useBreakpointValue({ base: "column", md: "row" })}>
-          <Box flex="1">
-            <Header title="Find and Explore the Meals You Want" />
-          </Box>
-          <Box>
-            <Search fetchSearch={fetchSearch} />
-          </Box>
+          <Header flex="1" title="Find and Explore the Meals You Want" />
+          <Search fetchSearch={fetchSearch} />
         </Stack>
 
         <HorizontalListContainer>
@@ -110,11 +102,9 @@ const Meal = ({ categories }) => {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            height="200px"
             p={6}
             borderRadius="15px"
-            w="100%"
-          >
+            w="100%">
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
               Search Meals Failed
@@ -129,11 +119,9 @@ const Meal = ({ categories }) => {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            height="200px"
             p={6}
             borderRadius="15px"
-            w="100%"
-          >
+            w="100%">
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
               Search Meals Failed
@@ -147,8 +135,7 @@ const Meal = ({ categories }) => {
           <GridListContainer
             title={`Meals ${
               currentCategory !== "" ? `for ${currentCategory}` : "Lists"
-            }`}
-          >
+            }`}>
             {meals.map((meal, index) => (
               <MealCard key={index} item={meal} />
             ))}
@@ -159,17 +146,15 @@ const Meal = ({ categories }) => {
   );
 };
 
-export default Meal;
+export default Meals;
 
 export async function getStaticProps() {
-  const resCategory = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/categories.php`
-  );
+  const resCategory = await api.getCategoryList();
   const categories = await resCategory.data.categories;
 
   return {
     props: {
-      categories,
-    },
+      categories
+    }
   };
 }

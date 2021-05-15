@@ -1,14 +1,18 @@
 import React from "react";
 import Head from "next/head";
 import axios from "axios";
-import { Box, VStack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  VStack,
+  useBreakpointValue,
+  useColorModeValue
+} from "@chakra-ui/react";
 import { GrTextAlignLeft } from "react-icons/gr";
-import Layout from "components/layout/Layout";
-import Header from "components/layout/Header";
-import ThumbCard from "components/products/ThumbCard";
-import SidebarRight from "components/layout/SidebarRight";
-import DescriptionCard from "components/products/_detail/DescriptionCard";
-import MealLists from "components/products/_detail/MealLists";
+import { Layout, Header, SidebarRight } from "components/layout";
+import { ThumbCard } from "components/products";
+import { DescriptionCard, MealLists } from "components/products/_detail";
+// import { FavouriteButton } from "components/common";
 
 const DetailIngredient = ({ ingredient, recommendationMeals }) => {
   const dataIngredient = ingredient[0];
@@ -26,13 +30,22 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
         <Box
           mr={useBreakpointValue({
             base: "0px",
-            lg: "450px",
-          })}
-        >
+            lg: "450px"
+          })}>
           <Header title={strIngredient} />
-          <Box my={2}>
-            <ThumbCard image={imageUrl} />
-          </Box>
+          <ThumbCard my={2} image={imageUrl} />
+
+          {/* <Flex mb={2} alignItems="center">
+            <FavouriteButton
+              fontSize="3xl"
+              dataBody={{
+                idIngredient,
+                strIngredient
+              }}
+              isIngredient
+            />
+          </Flex> */}
+
           <VStack spacing={4}>
             <DescriptionCard
               description={strDescription}
@@ -42,21 +55,18 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
             />
             {useBreakpointValue({
               base: (
-                <Box
-                  bg="white"
+                <MealLists
+                  bg={useColorModeValue("white", "gray.800")}
                   w="100%"
                   p={4}
                   borderRadius="15px"
                   boxShadow="lg"
-                >
-                  <MealLists
-                    title={`Meals With ${strIngredient}`}
-                    meals={recommendationMeals}
-                    type="ingredient"
-                  />
-                </Box>
+                  title={`Meals With ${strIngredient}`}
+                  meals={recommendationMeals}
+                  type="ingredient"
+                />
               ),
-              lg: <></>,
+              lg: <></>
             })}
           </VStack>
         </Box>
@@ -71,7 +81,7 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
                 type="ingredient"
               />
             </SidebarRight>
-          ),
+          )
         })}
       </Layout>
     </>
@@ -82,7 +92,7 @@ export default DetailIngredient;
 
 export async function getServerSideProps(context) {
   const res = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
+    `${process.env.NEXT_PUBLIC_API_URL}/list.php?i=list`
   );
   const ingredients = await res.data.meals;
   const ingredient = ingredients.filter((ingredient) => {
@@ -93,14 +103,14 @@ export async function getServerSideProps(context) {
     .toLowerCase()
     .replace(/\s/g, "%20");
   const resRecommendation = await axios.get(
-    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredientName}`
+    `${process.env.NEXT_PUBLIC_API_URL}/filter.php?i=${ingredientName}`
   );
   const recommendationMeals = await resRecommendation.data.meals;
 
   return {
     props: {
       ingredient,
-      recommendationMeals,
-    },
+      recommendationMeals
+    }
   };
 }

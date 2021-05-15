@@ -3,20 +3,31 @@ import NProgress from "nprogress";
 import "styles/nprogress.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
+import { Chakra } from "components/common";
 import theme from "../styles/theme";
 import fonts from "../styles/font-face";
+// import { UserProvider } from "context/userContext";
+// import { FavouritesProvider } from "context/favouritesContext";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
   return (
-    <ChakraProvider theme={theme}>
-      <Global styles={fonts} />
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <Chakra cookies={pageProps.cookies}>
+      <ChakraProvider theme={theme}>
+        {/* <UserProvider>
+          <FavouritesProvider> */}
+        <Global styles={fonts} />
+        <Component {...pageProps} />
+        {/* </FavouritesProvider>
+        </UserProvider> */}
+      </ChakraProvider>
+    </Chakra>
   );
-}
+};
 
 export default MyApp;
+
+// export { getServerSideProps } from "components/common/Chakra";

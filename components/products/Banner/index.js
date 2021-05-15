@@ -16,7 +16,7 @@ const Banner = ({ item }) => {
 
   const getDetailData = () => {
     axios
-      .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/lookup.php?i=${idMeal}`)
       .then((res) => {
         setDetail(res.data.meals[0]);
       })
