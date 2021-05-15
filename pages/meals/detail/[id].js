@@ -19,7 +19,6 @@ import { AiFillYoutube } from "react-icons/ai";
 import { Header, SidebarRight } from "components/layout";
 import { ThumbCard } from "components/products";
 import { IngredientLists, DescriptionCard } from "components/products/_detail";
-import { apiResolver } from "next/dist/next-server/server/api-utils";
 // import { FavouriteButton } from "components/common";
 
 const DetailMeal = ({ meal, ingredients }) => {
