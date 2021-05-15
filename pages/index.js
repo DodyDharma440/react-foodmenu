@@ -16,32 +16,30 @@ const Home = ({ meals, ingredients }) => {
         <title>FooDY | Home</title>
       </Head>
 
-      <Layout>
-        <Header mb={5} />
+      <Header mb={5} />
 
-        <HorizontalListContainer mb={8}>
-          {meals.slice(0, 3).map((meal, index) => (
-            <Banner key={index} item={meal} />
-          ))}
-        </HorizontalListContainer>
+      <HorizontalListContainer mb={8}>
+        {meals.slice(0, 3).map((meal, index) => (
+          <Banner key={index} item={meal} />
+        ))}
+      </HorizontalListContainer>
 
-        {meals.length > 4 ? (
-          <GridListContainer
-            mb={6}
-            title="Recommendation Meals"
-            moreLink="/meals">
-            {meals.slice(4, 14).map((meal, index) => (
-              <MealCard key={index} item={meal} />
-            ))}
-          </GridListContainer>
-        ) : null}
-
-        <GridListContainer title="Popular Ingredients" moreLink="/ingredients">
-          {ingredients.slice(0, 10).map((ingredient, index) => (
-            <IngredientCard key={index} item={ingredient} />
+      {meals.length > 4 ? (
+        <GridListContainer
+          mb={6}
+          title="Recommendation Meals"
+          moreLink="/meals">
+          {meals.slice(4, 14).map((meal, index) => (
+            <MealCard key={index} item={meal} />
           ))}
         </GridListContainer>
-      </Layout>
+      ) : null}
+
+      <GridListContainer title="Popular Ingredients" moreLink="/ingredients">
+        {ingredients.slice(0, 10).map((ingredient, index) => (
+          <IngredientCard key={index} item={ingredient} />
+        ))}
+      </GridListContainer>
     </>
   );
 };

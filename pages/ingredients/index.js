@@ -12,7 +12,7 @@ import {
   CircularProgress,
   useBreakpointValue
 } from "@chakra-ui/react";
-import { Layout, Header, GridListContainer } from "components/layout";
+import { Header, GridListContainer } from "components/layout";
 import { Search, IngredientCard } from "components/products";
 import { DataPagination } from "components/common";
 
@@ -53,68 +53,66 @@ const Ingredients = ({ ingredients }) => {
         <title>FooDY | Ingredients</title>
       </Head>
 
-      <Layout>
-        <Stack
-          direction={useBreakpointValue({ base: "column", md: "row" })}
-          mb={4}>
-          <Header flex="1" title="Search and Find Ingredients" />
-          <Search fetchSearch={fetchSearch} />
-        </Stack>
+      <Stack
+        direction={useBreakpointValue({ base: "column", md: "row" })}
+        mb={4}>
+        <Header flex="1" title="Search and Find Ingredients" />
+        <Search fetchSearch={fetchSearch} />
+      </Stack>
 
-        {loading ? (
-          <Center>
-            <CircularProgress
-              mt="20px"
-              size="70px"
-              isIndeterminate
-              color="secondary.main"
-            />
-          </Center>
-        ) : filterIngredients().length === 0 ? (
-          <Alert
-            status="error"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            height="200px"
-            p={6}
-            borderRadius="15px"
-            w="100%">
-            <AlertIcon boxSize="40px" mr={0} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              Search Ingredients Failed
-            </AlertTitle>
-            <AlertDescription maxWidth="sm">
-              Your search keyword doesn't match in our ingredient lists. Please
-              input another keyword.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <>
-            <GridListContainer title="Ingredients Lists">
-              {filterIngredients()
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((ingredient, index) => {
-                  return <IngredientCard key={index} item={ingredient} />;
-                })}
-            </GridListContainer>
-          </>
-        )}
-
-        {filterIngredients().length > 0 && (
-          <DataPagination
-            display="flex"
-            justifyContent="flex-end"
-            mt={4}
-            count={filterIngredients().length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            changePage={handleChangePage}
+      {loading ? (
+        <Center>
+          <CircularProgress
+            mt="20px"
+            size="70px"
+            isIndeterminate
+            color="secondary.main"
           />
-        )}
-      </Layout>
+        </Center>
+      ) : filterIngredients().length === 0 ? (
+        <Alert
+          status="error"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          height="200px"
+          p={6}
+          borderRadius="15px"
+          w="100%">
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            Search Ingredients Failed
+          </AlertTitle>
+          <AlertDescription maxWidth="sm">
+            Your search keyword doesn't match in our ingredient lists. Please
+            input another keyword.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <>
+          <GridListContainer title="Ingredients Lists">
+            {filterIngredients()
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((ingredient, index) => {
+                return <IngredientCard key={index} item={ingredient} />;
+              })}
+          </GridListContainer>
+        </>
+      )}
+
+      {filterIngredients().length > 0 && (
+        <DataPagination
+          display="flex"
+          justifyContent="flex-end"
+          mt={4}
+          count={filterIngredients().length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          changePage={handleChangePage}
+        />
+      )}
     </>
   );
 };

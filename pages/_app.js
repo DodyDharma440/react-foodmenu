@@ -6,6 +6,7 @@ import { Global } from "@emotion/react";
 import { Chakra } from "components/common";
 import theme from "../styles/theme";
 import fonts from "../styles/font-face";
+import { Layout } from "components/layout";
 // import { UserProvider } from "context/userContext";
 // import { FavouritesProvider } from "context/favouritesContext";
 
@@ -20,7 +21,9 @@ const MyApp = ({ Component, pageProps }) => {
         {/* <UserProvider>
           <FavouritesProvider> */}
         <Global styles={fonts} />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         {/* </FavouritesProvider>
         </UserProvider> */}
       </ChakraProvider>

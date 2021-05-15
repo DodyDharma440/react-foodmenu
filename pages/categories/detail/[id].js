@@ -8,7 +8,7 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 import { GrTextAlignLeft } from "react-icons/gr";
-import { Layout, SidebarRight, Header } from "components/layout";
+import { SidebarRight, Header } from "components/layout";
 import { ThumbCard } from "components/products";
 import { MealLists, DescriptionCard } from "components/products/_detail";
 
@@ -23,52 +23,50 @@ const DetailCategory = ({ category, recommendationMeals }) => {
         <title>FooDY | {strCategory}</title>
       </Head>
 
-      <Layout>
-        <Box
-          mr={useBreakpointValue({
-            base: "0px",
-            lg: "450px"
-          })}>
-          <Header title={strCategory} />
-          <ThumbCard my={2} image={strCategoryThumb} />
-          <VStack spacing={4}>
-            <DescriptionCard
-              description={strCategoryDescription}
-              title="Description"
-              icon={<GrTextAlignLeft />}
-              type="category"
-            />
-            {useBreakpointValue({
-              base: (
-                <MealLists
-                  bg={useColorModeValue("white", "gray.800")}
-                  w="100%"
-                  p={4}
-                  borderRadius="15px"
-                  boxShadow="lg"
-                  title={`Meals in Category ${strCategory}`}
-                  meals={recommendationMeals}
-                  type="category"
-                />
-              ),
-              lg: <></>
-            })}
-          </VStack>
-        </Box>
-
-        {useBreakpointValue({
-          base: <></>,
-          lg: (
-            <SidebarRight>
+      <Box
+        mr={useBreakpointValue({
+          base: "0px",
+          lg: "450px"
+        })}>
+        <Header title={strCategory} />
+        <ThumbCard my={2} image={strCategoryThumb} />
+        <VStack spacing={4}>
+          <DescriptionCard
+            description={strCategoryDescription}
+            title="Description"
+            icon={<GrTextAlignLeft />}
+            type="category"
+          />
+          {useBreakpointValue({
+            base: (
               <MealLists
+                bg={useColorModeValue("white", "gray.800")}
+                w="100%"
+                p={4}
+                borderRadius="15px"
+                boxShadow="lg"
                 title={`Meals in Category ${strCategory}`}
                 meals={recommendationMeals}
                 type="category"
               />
-            </SidebarRight>
-          )
-        })}
-      </Layout>
+            ),
+            lg: <></>
+          })}
+        </VStack>
+      </Box>
+
+      {useBreakpointValue({
+        base: <></>,
+        lg: (
+          <SidebarRight>
+            <MealLists
+              title={`Meals in Category ${strCategory}`}
+              meals={recommendationMeals}
+              type="category"
+            />
+          </SidebarRight>
+        )
+      })}
     </>
   );
 };

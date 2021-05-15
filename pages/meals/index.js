@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as api from "api";
 import Head from "next/head";
 import {
@@ -13,7 +12,6 @@ import {
   useBreakpointValue
 } from "@chakra-ui/react";
 import {
-  Layout,
   Header,
   HorizontalListContainer,
   GridListContainer
@@ -68,80 +66,78 @@ const Meals = ({ categories }) => {
         <title>FooDY | Meals</title>
       </Head>
 
-      <Layout>
-        <Stack direction={useBreakpointValue({ base: "column", md: "row" })}>
-          <Header flex="1" title="Find and Explore the Meals You Want" />
-          <Search fetchSearch={fetchSearch} />
-        </Stack>
+      <Stack direction={useBreakpointValue({ base: "column", md: "row" })}>
+        <Header flex="1" title="Find and Explore the Meals You Want" />
+        <Search fetchSearch={fetchSearch} />
+      </Stack>
 
-        <HorizontalListContainer>
-          {categories.map((category, index) => (
-            <CategoryCard
-              key={index}
-              category={category}
-              currentCategory={currentCategory}
-              handleCategoryClick={handleCategoryClick}
-            />
+      <HorizontalListContainer>
+        {categories.map((category, index) => (
+          <CategoryCard
+            key={index}
+            category={category}
+            currentCategory={currentCategory}
+            handleCategoryClick={handleCategoryClick}
+          />
+        ))}
+      </HorizontalListContainer>
+
+      {loading ? (
+        <Center>
+          <CircularProgress
+            mt="20px"
+            size="70px"
+            isIndeterminate
+            color="secondary.main"
+          />
+        </Center>
+      ) : errorMessage ? (
+        <Alert
+          status="error"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          p={6}
+          borderRadius="15px"
+          w="100%">
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            Search Meals Failed
+          </AlertTitle>
+          <AlertDescription maxWidth="sm">{errorMessage}</AlertDescription>
+        </Alert>
+      ) : meals === null ? (
+        <Alert
+          status="error"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          p={6}
+          borderRadius="15px"
+          w="100%">
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            Search Meals Failed
+          </AlertTitle>
+          <AlertDescription maxWidth="sm">
+            Your search keyword doesn't match in our meal lists. Please input
+            another keyword.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <GridListContainer
+          title={`Meals ${
+            currentCategory !== "" ? `for ${currentCategory}` : "Lists"
+          }`}>
+          {meals.map((meal, index) => (
+            <MealCard key={index} item={meal} />
           ))}
-        </HorizontalListContainer>
-
-        {loading ? (
-          <Center>
-            <CircularProgress
-              mt="20px"
-              size="70px"
-              isIndeterminate
-              color="secondary.main"
-            />
-          </Center>
-        ) : errorMessage ? (
-          <Alert
-            status="error"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            p={6}
-            borderRadius="15px"
-            w="100%">
-            <AlertIcon boxSize="40px" mr={0} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              Search Meals Failed
-            </AlertTitle>
-            <AlertDescription maxWidth="sm">{errorMessage}</AlertDescription>
-          </Alert>
-        ) : meals === null ? (
-          <Alert
-            status="error"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            p={6}
-            borderRadius="15px"
-            w="100%">
-            <AlertIcon boxSize="40px" mr={0} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              Search Meals Failed
-            </AlertTitle>
-            <AlertDescription maxWidth="sm">
-              Your search keyword doesn't match in our meal lists. Please input
-              another keyword.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <GridListContainer
-            title={`Meals ${
-              currentCategory !== "" ? `for ${currentCategory}` : "Lists"
-            }`}>
-            {meals.map((meal, index) => (
-              <MealCard key={index} item={meal} />
-            ))}
-          </GridListContainer>
-        )}
-      </Layout>
+        </GridListContainer>
+      )}
     </>
   );
 };

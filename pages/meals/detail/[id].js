@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import axios from "axios";
+import * as api from "api";
 import {
   Box,
   Text,
@@ -16,9 +16,10 @@ import { BiListUl } from "react-icons/bi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { CgBowl } from "react-icons/cg";
 import { AiFillYoutube } from "react-icons/ai";
-import { Layout, Header, SidebarRight } from "components/layout";
+import { Header, SidebarRight } from "components/layout";
 import { ThumbCard } from "components/products";
 import { IngredientLists, DescriptionCard } from "components/products/_detail";
+import { apiResolver } from "next/dist/next-server/server/api-utils";
 // import { FavouriteButton } from "components/common";
 
 const DetailMeal = ({ meal, ingredients }) => {
@@ -124,35 +125,34 @@ const DetailMeal = ({ meal, ingredients }) => {
         <title>FooDY | {strMeal}</title>
       </Head>
 
-      <Layout>
-        <Box
-          mr={useBreakpointValue({
-            base: "0px",
-            lg: "450px"
-          })}>
-          <Header title={`${strMeal}`} />
-          <Flex mt={2} mb={3}>
-            <HStack spacing="2px">
-              <BiListUl fontSize="24px" style={{ color: "#6a6a6a" }} />
-              <Text color="secondary.main" fontWeight="600">
-                {strCategory}
-              </Text>
-            </HStack>
-            <Spacer />
-            <HStack spacing="2px">
-              <HiOutlineLocationMarker
-                fontSize="24px"
-                style={{ color: "#6a6a6a" }}
-              />
-              <Text color="secondary.main" fontWeight="600">
-                {strArea}
-              </Text>
-            </HStack>
-          </Flex>
-          <ThumbCard my={2} image={strMealThumb} />
+      <Box
+        mr={useBreakpointValue({
+          base: "0px",
+          lg: "450px"
+        })}>
+        <Header title={`${strMeal}`} />
+        <Flex mt={2} mb={3}>
+          <HStack spacing="2px">
+            <BiListUl fontSize="24px" style={{ color: "#6a6a6a" }} />
+            <Text color="secondary.main" fontWeight="600">
+              {strCategory}
+            </Text>
+          </HStack>
+          <Spacer />
+          <HStack spacing="2px">
+            <HiOutlineLocationMarker
+              fontSize="24px"
+              style={{ color: "#6a6a6a" }}
+            />
+            <Text color="secondary.main" fontWeight="600">
+              {strArea}
+            </Text>
+          </HStack>
+        </Flex>
+        <ThumbCard my={2} image={strMealThumb} />
 
-          <Flex mb={2} alignItems="center">
-            {/* <FavouriteButton
+        <Flex mb={2} alignItems="center">
+          {/* <FavouriteButton
               fontSize="3xl"
               dataBody={{
                 idMeal,
@@ -161,56 +161,55 @@ const DetailMeal = ({ meal, ingredients }) => {
               }}
               isMeal
             /> */}
-            <Spacer />
-            {strYoutube !== "" && (
-              <a target="_blank" href={strYoutube}>
-                <Button
-                  leftIcon={<AiFillYoutube fontSize="18px" />}
-                  bg="red.500"
-                  colorScheme="red">
-                  Youtube Tutorial
-                </Button>
-              </a>
-            )}
-          </Flex>
+          <Spacer />
+          {strYoutube !== "" && (
+            <a target="_blank" href={strYoutube}>
+              <Button
+                leftIcon={<AiFillYoutube fontSize="18px" />}
+                bg="red.500"
+                colorScheme="red">
+                Youtube Tutorial
+              </Button>
+            </a>
+          )}
+        </Flex>
 
-          <VStack spacing={4}>
-            <DescriptionCard
-              description={strInstructions}
-              title="Instruction"
-              icon={<CgBowl />}
-              type="meal"
-              tags={tags}
-            />
-            {useBreakpointValue({
-              base: (
-                <IngredientLists
-                  bg={useColorModeValue("white", "gray.800")}
-                  w="100%"
-                  p={4}
-                  borderRadius="15px"
-                  boxShadow="lg"
-                  ingredients={ingredients}
-                  ingredientMeasure={ingredientMeasure}
-                />
-              ),
-              lg: <></>
-            })}
-          </VStack>
-        </Box>
-
-        {useBreakpointValue({
-          base: <></>,
-          lg: (
-            <SidebarRight>
+        <VStack spacing={4}>
+          <DescriptionCard
+            description={strInstructions}
+            title="Instruction"
+            icon={<CgBowl />}
+            type="meal"
+            tags={tags}
+          />
+          {useBreakpointValue({
+            base: (
               <IngredientLists
+                bg={useColorModeValue("white", "gray.800")}
+                w="100%"
+                p={4}
+                borderRadius="15px"
+                boxShadow="lg"
                 ingredients={ingredients}
                 ingredientMeasure={ingredientMeasure}
               />
-            </SidebarRight>
-          )
-        })}
-      </Layout>
+            ),
+            lg: <></>
+          })}
+        </VStack>
+      </Box>
+
+      {useBreakpointValue({
+        base: <></>,
+        lg: (
+          <SidebarRight>
+            <IngredientLists
+              ingredients={ingredients}
+              ingredientMeasure={ingredientMeasure}
+            />
+          </SidebarRight>
+        )
+      })}
     </>
   );
 };
@@ -218,14 +217,12 @@ const DetailMeal = ({ meal, ingredients }) => {
 export default DetailMeal;
 
 export async function getServerSideProps(context) {
-  const resMeal = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/lookup.php?i=${context.params.id}`
-  );
+  const { id } = context.params;
+
+  const resMeal = await api.getDetailMeal(id);
   const meal = await resMeal.data.meals[0];
 
-  const resIngredients = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/list.php?i=list`
-  );
+  const resIngredients = await api.getIngredientList();
   const ingredients = await resIngredients.data.meals;
 
   return {

@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import * as api from "api";
 import { Flex } from "@chakra-ui/react";
-import { Layout, Header, GridListContainer } from "components/layout";
+import { Header, GridListContainer } from "components/layout";
 import { CategoryCardLarge } from "components/products";
 
 const Categories = ({ categories }) => {
@@ -12,17 +12,15 @@ const Categories = ({ categories }) => {
         <title>FooDY | Categories</title>
       </Head>
 
-      <Layout>
-        <Flex mb={5}>
-          <Header flex="1" title="See All Categories" />
-        </Flex>
+      <Flex mb={5}>
+        <Header flex="1" title="See All Categories" />
+      </Flex>
 
-        <GridListContainer title="Category Lists">
-          {categories.map((category, index) => {
-            return <CategoryCardLarge key={index} category={category} />;
-          })}
-        </GridListContainer>
-      </Layout>
+      <GridListContainer title="Category Lists">
+        {categories.map((category, index) => {
+          return <CategoryCardLarge key={index} category={category} />;
+        })}
+      </GridListContainer>
     </>
   );
 };
