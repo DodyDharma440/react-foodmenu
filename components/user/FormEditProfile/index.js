@@ -16,8 +16,6 @@ import { FaUserEdit } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
 import { UserContext } from "context/userContext";
 import { HeaderMedium } from "components/common";
-import FormPassword from "components/user/FormPassword";
-import FormProfile from "components/user/FormProfile";
 
 const FormEditProfile = ({ ...props }) => {
   const { userData, setUserData } = useContext(UserContext);
