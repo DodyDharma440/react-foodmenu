@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "context/userContext";
-import { FavouritesContext } from "context/favouritesContext";
+// import { FavouritesContext } from "context/favouritesContext";
 import {
   Box,
   Text,
