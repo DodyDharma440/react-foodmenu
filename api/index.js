@@ -2,6 +2,21 @@ import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_USER_URL;
+const API_USER = axios.create({
+  baseURL: `${USER_API_BASE_URL}/user`
+});
+
+API_USER.interceptors.request.use((req) => {
+  const userData = JSON.parse(localStorage.getItem("user-data"));
+
+  if (userData.result) {
+    req.headers.Authorization = `Bearer ${userData.token}`;
+  }
+
+  return req;
+});
+
 //Meal
 export const getMealsByCategory = (category) => {
   const url = `${API_BASE_URL}/filter.php?c=${category}`;
@@ -39,4 +54,17 @@ export const getCategoryList = () => {
   const url = `${API_BASE_URL}/categories.php`;
 
   return axios.get(url);
+};
+
+//Auth
+export const signIn = (inputValue) => {
+  return API_USER.post("/sign-in", inputValue);
+};
+
+export const signUp = (inputValue) => {
+  return API_USER.post("/sign-up", inputValue);
+};
+
+export const deleteAccount = (id) => {
+  return API_USER.delete(`/${id}`);
 };

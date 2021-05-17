@@ -7,13 +7,13 @@ import {
   Divider,
   useBreakpointValue
 } from "@chakra-ui/react";
-// import { UserContext } from "context/userContext";
+import { UserContext } from "context/userContext";
 
 const Header = ({ title, ...props }) => {
   const [mounted, setMounted] = useState(false);
   const [greetings, setGreetings] = useState(undefined);
-  // const { userData } = useContext(UserContext);
-  // const nameUser = userData !== undefined && userData.name;
+  const { userData } = useContext(UserContext);
+  const nameUser = userData?.result?.firstName;
 
   const makeGreetings = () => {
     const date = new Date();
@@ -45,7 +45,7 @@ const Header = ({ title, ...props }) => {
         {title === undefined ? (
           <Text>
             Good {greetings}
-            {/* {nameUser !== "" ? `, ${nameUser}` : ""} */}
+            {nameUser && `, ${nameUser}`}
           </Text>
         ) : (
           <>

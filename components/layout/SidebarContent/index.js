@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-// import { UserContext } from "context/userContext";
+import { UserContext } from "context/userContext";
 // import { FavouritesContext } from "context/favouritesContext";
 import {
   Image,
@@ -23,28 +23,18 @@ import { FaUserEdit } from "react-icons/fa";
 import SidebarMenuItem from "components/layout/SidebarMenuItem";
 
 const SidebarContent = ({ menuItems }) => {
-  // const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   // const { setFavMeals, setFavIngredients } = useContext(FavouritesContext);
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
 
   const arrayPathname = router.pathname.split("/");
 
-  // const handleLogout = () => {
-  //   axios.get(`${process.env.NEXT_PUBLIC_API_USER_URL}/logout`).then(() => {
-  //     const currentUser = {
-  //       id: "",
-  //       name: "",
-  //       email: "",
-  //       token: ""
-  //     };
-  //     setFavMeals([]);
-  //     setFavIngredients([]);
-  //     setUserData(currentUser);
-  //     localStorage.setItem("user-data", JSON.stringify(currentUser));
-  //     router.push("/auth");
-  //   });
-  // };
+  const handleLogout = () => {
+    setUserData({});
+    localStorage.setItem("user-data", JSON.stringify({}));
+    router.push("/auth");
+  };
 
   return (
     <>
@@ -70,7 +60,7 @@ const SidebarContent = ({ menuItems }) => {
         })}
       </Box>
 
-      {/* {userData.isLoggedIn ? (
+      {userData?.isLoggedIn ? (
         <Box>
           <Menu>
             <MenuButton
@@ -97,7 +87,7 @@ const SidebarContent = ({ menuItems }) => {
                 isActive={arrayPathname[1] === "edit-profile" ? true : false}
               />
               <SidebarMenuItem
-                onClick={() => handleLogout()}
+                onClick={handleLogout}
                 icon={<HiOutlineLogout />}
                 label="Logout"
                 background="transparent"
@@ -112,7 +102,7 @@ const SidebarContent = ({ menuItems }) => {
           label="Login"
           isActive={arrayPathname[1] === "auth" ? true : false}
         />
-      )} */}
+      )}
     </>
   );
 };

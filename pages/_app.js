@@ -7,7 +7,7 @@ import { Chakra } from "components/common";
 import theme from "../styles/theme";
 import fonts from "../styles/font-face";
 import { Layout } from "components/layout";
-// import { UserProvider } from "context/userContext";
+import { UserProvider } from "context/userContext";
 // import { FavouritesProvider } from "context/favouritesContext";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -18,14 +18,14 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <Chakra cookies={pageProps.cookies}>
       <ChakraProvider theme={theme}>
-        {/* <UserProvider>
-          <FavouritesProvider> */}
-        <Global styles={fonts} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        {/* </FavouritesProvider>
-        </UserProvider> */}
+        <UserProvider>
+          {/* <FavouritesProvider> */}
+          <Global styles={fonts} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          {/* </FavouritesProvider> */}
+        </UserProvider>
       </ChakraProvider>
     </Chakra>
   );
