@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { UserContext } from "context/userContext";
 import { Stack, useBreakpointValue } from "@chakra-ui/react";
 import { ProfileCard, FormEditProfile } from "components/user";
 
 const EditProfile = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState();
+  const { userData } = useContext(UserContext);
 
   useEffect(() => {
-    if (!userData) {
-      setUserData(JSON.parse(localStorage.getItem("user-data")));
-    }
-
     if (!userData?.isLoggedIn) {
       router.push("/auth");
     }
-  }, []);
+  }, [userData]);
 
   return (
     <>

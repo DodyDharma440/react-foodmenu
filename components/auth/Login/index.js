@@ -58,33 +58,6 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    console.log(inputValue);
-
-    // api
-    //   .signIn(inputValue)
-    //   .then((res) => {
-    //     const newUserData = { ...res?.data, isLoggedIn: true };
-    //     setInputValue({
-    //       email: "",
-    //       password: ""
-    //     });
-    //     setLoading(false);
-    //     setUserData(newUserData);
-    //     localStorage.setItem("user-data", JSON.stringify(newUserData));
-    //     setMessage({
-    //       type: "",
-    //       message: undefined
-    //     });
-    //     router.push("/");
-    //   })
-    //   .catch((error) => {
-    //     setLoading(false);
-    //     setMessage({
-    //       type: "error",
-    //       message: error.response.data.message
-    //     });
-    //   });
-
     try {
       const { data } = await api.signIn(inputValue);
       const newUserData = { ...data, isLoggedIn: true };
@@ -92,7 +65,6 @@ const Login = () => {
         email: "",
         password: ""
       });
-      console.log("success");
       setLoading(false);
       setUserData(newUserData);
       localStorage.setItem("user-data", JSON.stringify(newUserData));
@@ -102,12 +74,11 @@ const Login = () => {
       });
       router.push("/");
     } catch (error) {
-      console.log("failed");
       setTimeout(() => {
         setLoading(false);
         setMessage({
           type: "error",
-          message: error.message
+          message: error.response.data.message
         });
       }, 1000);
     }

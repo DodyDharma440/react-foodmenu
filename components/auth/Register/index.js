@@ -80,64 +80,41 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleError = (message) => {
+    setTimeout(() => {
+      setLoading(false);
+      setMessage({
+        type: "error",
+        message: message
+      });
+    }, 1000);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (inputValue.password.length >= 8) {
       if (inputValue.password === inputValue.confirmPassword) {
-        api
-          .signUp(inputValue)
-          .then((res) => {
-            const newUserData = { ...res?.data, isLoggedIn: true };
-            setInputValue(defaultInputValue);
-            setLoading(false);
-            setMessage({
-              type: "success",
-              message: "Success to sign up new account"
-            });
-            setUserData(newUserData);
-            localStorage.setItem("user-data", JSON.stringify(newUserData));
-            router.push("/");
-          })
-          .catch((error) => {
-            setLoading(false);
-            setMessage({
-              type: "error",
-              message: `Sign Up failed. ${error.response.data.message}`
-            });
+        try {
+          const { data } = await api.signUp(inputValue);
+          const newUserData = { ...data, isLoggedIn: true };
+          setInputValue(defaultInputValue);
+          setLoading(false);
+          setMessage({
+            type: "success",
+            message: "Success to sign up new account"
           });
-        // try {
-        //   const response = await api.signUp(inputValue);
-        //   const newUserData = { ...response?.data, isLoggedIn: true };
-        //   setInputValue(defaultInputValue);
-        //   setLoading(false);
-        //   setMessage({
-        //     type: "success",
-        //     message: "Success to sign up new account"
-        //   });
-        //   setUserData(newUserData);
-        //   localStorage.setItem("user-data", JSON.stringify(newUserData));
-        //   router.push("/");
-        // } catch (error) {
-        //   setLoading(false);
-        //   setMessage({
-        //     type: "error",
-        //     message: `Sign Up failed. ${error.response.data.message}`
-        //   });
-        // }
+          setUserData(newUserData);
+          localStorage.setItem("user-data", JSON.stringify(newUserData));
+          router.push("/");
+        } catch (error) {
+          handleError(error.response.data.message);
+        }
       } else {
-        setLoading(false);
-        setMessage({
-          type: "error",
-          message: "Password doesn't match"
-        });
+        handleError("Password not match.");
       }
     } else {
-      setLoading(false);
-      setMessage({
-        type: "error",
-        message: "Password is minimum 8 characters"
-      });
+      handleError("Password minimum 8 characters.");
     }
   };
 
