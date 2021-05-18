@@ -26,7 +26,7 @@ const Auth = () => {
     if (userData?.isLoggedIn) {
       router.push("/");
     }
-  }, [userData]);
+  }, []);
 
   return (
     <>

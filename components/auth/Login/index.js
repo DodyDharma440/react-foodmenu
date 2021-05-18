@@ -86,10 +86,7 @@ const Login = () => {
     //   });
 
     try {
-      const { data } = await axios.post(
-        "https://api-foodmenu.herokuapp.com/user/sign-in",
-        inputValue
-      );
+      const { data } = await api.signIn(inputValue);
       const newUserData = { ...data, isLoggedIn: true };
       setInputValue({
         email: "",

@@ -16,7 +16,7 @@ const EditProfile = () => {
     if (!userData?.isLoggedIn) {
       router.push("/auth");
     }
-  }, [userData]);
+  }, []);
 
   return (
     <>
