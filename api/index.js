@@ -49,11 +49,17 @@ export const getCategoryList = () => {
 
 //Auth
 export const signIn = (inputValue) => {
-  return apiUser.post("/sign-in", inputValue);
+  return axios.post(
+    "https://api-foodmenu.herokuapp.com/user/sign-in",
+    inputValue
+  );
 };
 
 export const signUp = (inputValue) => {
-  return apiUser.post("/sign-up", inputValue);
+  return axios.post(
+    "https://api-foodmenu.herokuapp.com/user/sign-up",
+    inputValue
+  );
 };
 
 export const deleteAccount = (id) => {
