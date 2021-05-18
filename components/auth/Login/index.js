@@ -58,9 +58,8 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await api.signIn(inputValue);
-      console.log(data);
-      const newUserData = { ...data, isLoggedIn: true };
+      const response = await api.signIn(inputValue);
+      const newUserData = { ...response?.data, isLoggedIn: true };
       setInputValue({
         email: "",
         password: ""

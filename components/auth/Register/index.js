@@ -86,9 +86,8 @@ const Register = () => {
     if (inputValue.password.length >= 8) {
       if (inputValue.password === inputValue.confirmPassword) {
         try {
-          const { data } = await api.signUp(inputValue);
-          console.log(data);
-          const newUserData = { ...data, isLoggedIn: true };
+          const response = await api.signUp(inputValue);
+          const newUserData = { ...response?.data, isLoggedIn: true };
           setInputValue(defaultInputValue);
           setLoading(false);
           setMessage({
