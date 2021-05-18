@@ -88,18 +88,16 @@ const Register = () => {
         try {
           const { data } = await api.signUp(inputValue);
           console.log(data);
-          if (data) {
-            const newUserData = { ...data, isLoggedIn: true };
-            setInputValue(defaultInputValue);
-            setLoading(false);
-            setMessage({
-              type: "success",
-              message: "Success to sign up new account"
-            });
-            setUserData(newUserData);
-            localStorage.setItem("user-data", JSON.stringify(newUserData));
-            router.push("/");
-          }
+          const newUserData = { ...data, isLoggedIn: true };
+          setInputValue(defaultInputValue);
+          setLoading(false);
+          setMessage({
+            type: "success",
+            message: "Success to sign up new account"
+          });
+          setUserData(newUserData);
+          localStorage.setItem("user-data", JSON.stringify(newUserData));
+          router.push("/");
         } catch (error) {
           setLoading(false);
           setMessage({

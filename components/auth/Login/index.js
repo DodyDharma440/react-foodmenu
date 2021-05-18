@@ -59,21 +59,20 @@ const Login = () => {
     setLoading(true);
     try {
       const { data } = await api.signIn(inputValue);
-      if (data) {
-        const newUserData = { ...data, isLoggedIn: true };
-        setInputValue({
-          email: "",
-          password: ""
-        });
-        setLoading(false);
-        setUserData(newUserData);
-        localStorage.setItem("user-data", JSON.stringify(newUserData));
-        setMessage({
-          type: "",
-          message: undefined
-        });
-        router.push("/");
-      }
+      console.log(data);
+      const newUserData = { ...data, isLoggedIn: true };
+      setInputValue({
+        email: "",
+        password: ""
+      });
+      setLoading(false);
+      setUserData(newUserData);
+      localStorage.setItem("user-data", JSON.stringify(newUserData));
+      setMessage({
+        type: "",
+        message: undefined
+      });
+      router.push("/");
     } catch (error) {
       setLoading(false);
       setMessage({

@@ -2,9 +2,12 @@ import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_USER_URL;
+const API_MEAL = axios.create({
+  baseURL: "https://www.themealdb.com/api/json/v1/1"
+});
+
 const API_USER = axios.create({
-  baseURL: `${USER_API_BASE_URL}/user`
+  baseURL: "https://api-foodmenu.herokuapp.com/user"
 });
 
 API_USER.interceptors.request.use((req) => {
@@ -19,41 +22,29 @@ API_USER.interceptors.request.use((req) => {
 
 //Meal
 export const getMealsByCategory = (category) => {
-  const url = `${API_BASE_URL}/filter.php?c=${category}`;
-
-  return axios.get(url);
+  return API_MEAL.get(`/filter.php?c=${category}`);
 };
 
 export const getMealsByIngredient = (ingredient) => {
-  const url = `${API_BASE_URL}/filter.php?i=${ingredient}`;
-
-  return axios.get(url);
+  return API_MEAL.get(`/filter.php?i=${ingredient}`);
 };
 
 export const getDetailMeal = (id) => {
-  const url = `${API_BASE_URL}/lookup.php?i=${id}`;
-
-  return axios.get(url);
+  return API_MEAL.get(`/lookup.php?i=${id}`);
 };
 
 export const searchMeals = (searchValue) => {
-  const url = `${API_BASE_URL}/search.php?s=${searchValue}`;
-
-  return axios.get(url);
+  return API_MEAL.get(`/search.php?s=${searchValue}`);
 };
 
 //Ingredient
 export const getIngredientList = () => {
-  const url = `${API_BASE_URL}/list.php?i=list`;
-
-  return axios.get(url);
+  return API_MEAL.get("/list.php?i=list");
 };
 
 //Category
 export const getCategoryList = () => {
-  const url = `${API_BASE_URL}/categories.php`;
-
-  return axios.get(url);
+  return API_MEAL.get("/categories.php");
 };
 
 //Auth
