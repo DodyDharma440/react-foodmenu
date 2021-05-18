@@ -54,33 +54,33 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    api
-      .signIn(inputValue)
-      .then((res) => {
-        const newUserData = { ...res?.data, isLoggedIn: true };
-        setInputValue({
-          email: "",
-          password: ""
-        });
-        setLoading(false);
-        setUserData(newUserData);
-        localStorage.setItem("user-data", JSON.stringify(newUserData));
-        setMessage({
-          type: "",
-          message: undefined
-        });
-        router.push("/");
-      })
-      .catch((error) => {
-        setLoading(false);
-        setMessage({
-          type: "error",
-          message: error.response.data.message
-        });
-      });
+    // api
+    //   .signIn(inputValue)
+    //   .then((res) => {
+    //     const newUserData = { ...res?.data, isLoggedIn: true };
+    //     setInputValue({
+    //       email: "",
+    //       password: ""
+    //     });
+    //     setLoading(false);
+    //     setUserData(newUserData);
+    //     localStorage.setItem("user-data", JSON.stringify(newUserData));
+    //     setMessage({
+    //       type: "",
+    //       message: undefined
+    //     });
+    //     router.push("/");
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     setMessage({
+    //       type: "error",
+    //       message: error.response.data.message
+    //     });
+    //   });
 
     // try {
     //   const response = await api.signIn(inputValue);
