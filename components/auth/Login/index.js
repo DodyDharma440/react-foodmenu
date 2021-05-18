@@ -58,7 +58,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("function triggered");
+    console.log(inputValue);
 
     // api
     //   .signIn(inputValue)
@@ -86,7 +86,10 @@ const Login = () => {
     //   });
 
     try {
-      const { data } = await api.signIn(inputValue);
+      const { data } = await axios.post(
+        "https://api-foodmenu.herokuapp.com/user/sign-in",
+        inputValue
+      );
       const newUserData = { ...data, isLoggedIn: true };
       setInputValue({
         email: "",
@@ -103,11 +106,13 @@ const Login = () => {
       router.push("/");
     } catch (error) {
       console.log("failed");
-      setTimeout(() => setLoading(false), 1000);
-      setMessage({
-        type: "error",
-        message: error.message
-      });
+      setTimeout(() => {
+        setLoading(false);
+        setMessage({
+          type: "error",
+          message: error.message
+        });
+      }, 1000);
     }
   };
 
