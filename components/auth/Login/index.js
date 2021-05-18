@@ -57,6 +57,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    console.log("function triggered");
+
     // api
     //   .signIn(inputValue)
     //   .then((res) => {
@@ -82,28 +85,30 @@ const Login = () => {
     //     });
     //   });
 
-    // try {
-    //   const response = await api.signIn(inputValue);
-    //   const newUserData = { ...response?.data, isLoggedIn: true };
-    //   setInputValue({
-    //     email: "",
-    //     password: ""
-    //   });
-    //   setLoading(false);
-    //   setUserData(newUserData);
-    //   localStorage.setItem("user-data", JSON.stringify(newUserData));
-    //   setMessage({
-    //     type: "",
-    //     message: undefined
-    //   });
-    //   router.push("/");
-    // } catch (error) {
-    //   setLoading(false);
-    //   setMessage({
-    //     type: "error",
-    //     message: error.response.data.message
-    //   });
-    // }
+    try {
+      const { data } = await api.signIn(inputValue);
+      const newUserData = { ...data, isLoggedIn: true };
+      setInputValue({
+        email: "",
+        password: ""
+      });
+      console.log("success");
+      setLoading(false);
+      setUserData(newUserData);
+      localStorage.setItem("user-data", JSON.stringify(newUserData));
+      setMessage({
+        type: "",
+        message: undefined
+      });
+      router.push("/");
+    } catch (error) {
+      console.log("failed");
+      setTimeout(() => setLoading(false), 1000);
+      setMessage({
+        type: "error",
+        message: error.message
+      });
+    }
   };
 
   return (
@@ -119,12 +124,12 @@ const Login = () => {
         </Center>
       </Heading>
 
-      {message.message !== undefined ? (
+      {message.message !== undefined && (
         <Alert status={message.type} borderRadius="10px">
           <AlertIcon />
           <Text>{message.message}</Text>
         </Alert>
-      ) : null}
+      )}
 
       <form onSubmit={handleSubmit}>
         <InputGroup my={5}>
