@@ -54,31 +54,56 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const response = await api.signIn(inputValue);
-      const newUserData = { ...response?.data, isLoggedIn: true };
-      setInputValue({
-        email: "",
-        password: ""
+    api
+      .signIn(inputValue)
+      .then((res) => {
+        const newUserData = { ...res?.data, isLoggedIn: true };
+        setInputValue({
+          email: "",
+          password: ""
+        });
+        setLoading(false);
+        setUserData(newUserData);
+        localStorage.setItem("user-data", JSON.stringify(newUserData));
+        setMessage({
+          type: "",
+          message: undefined
+        });
+        router.push("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        setMessage({
+          type: "error",
+          message: error.response.data.message
+        });
       });
-      setLoading(false);
-      setUserData(newUserData);
-      localStorage.setItem("user-data", JSON.stringify(newUserData));
-      setMessage({
-        type: "",
-        message: undefined
-      });
-      router.push("/");
-    } catch (error) {
-      setLoading(false);
-      setMessage({
-        type: "error",
-        message: error.response.data.message
-      });
-    }
+
+    // try {
+    //   const response = await api.signIn(inputValue);
+    //   const newUserData = { ...response?.data, isLoggedIn: true };
+    //   setInputValue({
+    //     email: "",
+    //     password: ""
+    //   });
+    //   setLoading(false);
+    //   setUserData(newUserData);
+    //   localStorage.setItem("user-data", JSON.stringify(newUserData));
+    //   setMessage({
+    //     type: "",
+    //     message: undefined
+    //   });
+    //   router.push("/");
+    // } catch (error) {
+    //   setLoading(false);
+    //   setMessage({
+    //     type: "error",
+    //     message: error.response.data.message
+    //   });
+    // }
   };
 
   return (

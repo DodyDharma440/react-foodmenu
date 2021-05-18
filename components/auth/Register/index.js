@@ -80,30 +80,51 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     if (inputValue.password.length >= 8) {
       if (inputValue.password === inputValue.confirmPassword) {
-        try {
-          const response = await api.signUp(inputValue);
-          const newUserData = { ...response?.data, isLoggedIn: true };
-          setInputValue(defaultInputValue);
-          setLoading(false);
-          setMessage({
-            type: "success",
-            message: "Success to sign up new account"
+        api
+          .signUp(inputValue)
+          .then((res) => {
+            const newUserData = { ...res?.data, isLoggedIn: true };
+            setInputValue(defaultInputValue);
+            setLoading(false);
+            setMessage({
+              type: "success",
+              message: "Success to sign up new account"
+            });
+            setUserData(newUserData);
+            localStorage.setItem("user-data", JSON.stringify(newUserData));
+            router.push("/");
+          })
+          .catch((error) => {
+            setLoading(false);
+            setMessage({
+              type: "error",
+              message: `Sign Up failed. ${error.response.data.message}`
+            });
           });
-          setUserData(newUserData);
-          localStorage.setItem("user-data", JSON.stringify(newUserData));
-          router.push("/");
-        } catch (error) {
-          setLoading(false);
-          setMessage({
-            type: "error",
-            message: `Sign Up failed. ${error.response.data.message}`
-          });
-        }
+        // try {
+        //   const response = await api.signUp(inputValue);
+        //   const newUserData = { ...response?.data, isLoggedIn: true };
+        //   setInputValue(defaultInputValue);
+        //   setLoading(false);
+        //   setMessage({
+        //     type: "success",
+        //     message: "Success to sign up new account"
+        //   });
+        //   setUserData(newUserData);
+        //   localStorage.setItem("user-data", JSON.stringify(newUserData));
+        //   router.push("/");
+        // } catch (error) {
+        //   setLoading(false);
+        //   setMessage({
+        //     type: "error",
+        //     message: `Sign Up failed. ${error.response.data.message}`
+        //   });
+        // }
       } else {
         setLoading(false);
         setMessage({
