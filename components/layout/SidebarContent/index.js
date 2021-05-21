@@ -22,19 +22,13 @@ import {
 import { FaUserEdit } from "react-icons/fa";
 import SidebarMenuItem from "components/layout/SidebarMenuItem";
 
-const SidebarContent = ({ menuItems }) => {
-  const { userData, setUserData } = useContext(UserContext);
+const SidebarContent = ({ menuItems, handleLogout }) => {
+  const { userData } = useContext(UserContext);
   // const { setFavMeals, setFavIngredients } = useContext(FavouritesContext);
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
 
   const arrayPathname = router.pathname.split("/");
-
-  const handleLogout = () => {
-    setUserData({});
-    localStorage.setItem("user-data", JSON.stringify({}));
-    router.push("/auth");
-  };
 
   return (
     <>

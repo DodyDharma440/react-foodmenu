@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
 import { Box, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+import decode from "jwt-decode";
+import { UserContext } from "context/userContext";
 import SidebarContent from "components/layout/SidebarContent";
 import MobileNavbar from "components/layout/MobileNavbar";
 import {
@@ -30,15 +33,35 @@ const menuItems = [
     path: "/ingredients",
     icon: <BiPalette style={{ margin: "auto" }} />,
     label: "Ingredients"
+  },
+  {
+    path: "/favourites",
+    icon: <BiHeart style={{ margin: "auto" }} />,
+    label: "Favourites"
   }
-  // {
-  //   path: "/favourites",
-  //   icon: <BiHeart style={{ margin: "auto" }} />,
-  //   label: "Favourites"
-  // }
 ];
 
 const Layout = ({ children }) => {
+  const { userData, setUserData } = useContext(UserContext);
+  const router = useRouter();
+
+  const handleLogout = useCallback(() => {
+    setUserData({});
+    localStorage.setItem("user-data", JSON.stringify({}));
+    router.push("/auth");
+  }, []);
+
+  useEffect(() => {
+    const token = userData?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout();
+      }
+    }
+  }, [userData?.token, handleLogout]);
+
   return (
     <Box
       bg={useColorModeValue("mainBackground", "gray.700")}
@@ -69,7 +92,7 @@ const Layout = ({ children }) => {
             overflow="auto"
             display="flex"
             flexDirection="column">
-            <SidebarContent menuItems={menuItems} />
+            <SidebarContent menuItems={menuItems} handleLogout={handleLogout} />
           </Box>
         )
       })}

@@ -7,7 +7,7 @@ const apiMeal = axios.create({
 });
 
 const apiUser = axios.create({
-  baseURL: "https://api-foodmenu.herokuapp.com/user"
+  baseURL: "https://api-foodmenu.herokuapp.com"
 });
 
 apiUser.interceptors.request.use((req) => {
@@ -63,5 +63,18 @@ export const signUp = (inputValue) => {
 };
 
 export const deleteAccount = (id) => {
-  return apiUser.delete(`/${id}`);
+  return apiUser.delete(`/user/${id}`);
+};
+
+//Favourites Meal
+export const getFavMeals = () => {
+  return apiUser.get("/favourites/meals");
+};
+
+export const addFavMeal = (value) => {
+  return apiUser.post("/favourites/meals", value);
+};
+
+export const removeFavMeal = (id) => {
+  return apiUser.delete(`/favourites/meals/${id}`);
 };
