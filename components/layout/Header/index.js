@@ -19,7 +19,7 @@ const Header = ({ title, ...props }) => {
     const date = new Date();
     const hour = date.getHours();
 
-    if (hour > 0 && hour <= 10) {
+    if (hour >= 0 && hour <= 10) {
       setGreetings("Morning");
     } else if (hour >= 11 && hour <= 16) {
       setGreetings("Afternoon");

@@ -19,7 +19,7 @@ import { AiFillYoutube } from "react-icons/ai";
 import { Header, SidebarRight } from "components/layout";
 import { ThumbCard } from "components/products";
 import { IngredientLists, DescriptionCard } from "components/products/_detail";
-// import { FavouriteButton } from "components/common";
+import { FavouriteButton } from "components/common";
 
 const DetailMeal = ({ meal, ingredients }) => {
   const {
@@ -151,15 +151,15 @@ const DetailMeal = ({ meal, ingredients }) => {
         <ThumbCard my={2} image={strMealThumb} />
 
         <Flex mb={2} alignItems="center">
-          {/* <FavouriteButton
-              fontSize="3xl"
-              dataBody={{
-                idMeal,
-                strMeal,
-                strMealThumb
-              }}
-              isMeal
-            /> */}
+          <FavouriteButton
+            fontSize="3xl"
+            item={{
+              idMeal,
+              strMeal,
+              strMealThumb
+            }}
+            isMeal
+          />
           <Spacer />
           {strYoutube !== "" && (
             <a target="_blank" href={strYoutube}>

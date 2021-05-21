@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import * as api from "api";
 import {
-  Layout,
   Header,
   GridListContainer,
   HorizontalListContainer
@@ -57,9 +56,8 @@ export async function getStaticProps() {
     "Pork",
     "Seafood",
     "Side",
-    "Starter",
-    "Vegan",
-    "Vegetarian"
+    "Vegetarian",
+    "Breakfast"
   ];
   const randomIndex = Math.floor(Math.random() * category.length);
 
