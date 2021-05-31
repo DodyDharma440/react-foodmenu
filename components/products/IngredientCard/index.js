@@ -26,14 +26,11 @@ const IngredientCard = ({ item }) => {
           w="100%"
           borderRadius="10px"
         />
-        {/* <Flex pt={1} justifyContent="flex-end">
+        <Flex pt={1} justifyContent="flex-end">
           <Box fontSize="xl">
-            <FavouriteButton
-              dataBody={{ strIngredient, idIngredient }}
-              isIngredient
-            />
+            <FavouriteButton item={item} isIngredient />
           </Box>
-        </Flex> */}
+        </Flex>
       </Box>
       <Link href={`ingredients/detail/${idIngredient}`}>
         <Text

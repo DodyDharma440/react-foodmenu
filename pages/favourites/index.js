@@ -20,7 +20,7 @@ import { UserContext } from "context/userContext";
 const Favourites = () => {
   const { userData } = useContext(UserContext);
   const [favouritesMeal, setFavouritesMeal] = useState([]);
-  // const [favouritesIngredient, setFavouritesIngredient] = useState([]);
+  const [favouritesIngredient, setFavouritesIngredient] = useState([]);
   const router = useRouter();
   const isLoggedIn = userData?.isLoggedIn;
 
@@ -33,9 +33,19 @@ const Favourites = () => {
     }
   };
 
+  const getFavIngredients = async () => {
+    try {
+      const { data } = await api.getFavIngredients();
+      setFavouritesIngredient(data.ingredients);
+    } catch (error) {
+      alert(err.response.data.message);
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       getFavMeals();
+      getFavIngredients();
     }
   }, [isLoggedIn]);
 
@@ -66,6 +76,24 @@ const Favourites = () => {
                 w="100%">
                 <AlertIcon />
                 You don't have favourites meal.
+              </Alert>
+            )}
+          </Box>
+          <Box mb={6}>
+            {favouritesIngredient.length > 0 ? (
+              <GridListContainer title="Favourites Ingredient">
+                {favouritesIngredient.map((fav, index) => (
+                  <IngredientCard key={index} item={fav} />
+                ))}
+              </GridListContainer>
+            ) : (
+              <Alert
+                status="warning"
+                variant="subtle"
+                borderRadius="15px"
+                w="100%">
+                <AlertIcon />
+                You don't have favourites ingredient.
               </Alert>
             )}
           </Box>

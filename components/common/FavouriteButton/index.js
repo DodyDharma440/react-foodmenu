@@ -23,14 +23,20 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import { HiOutlineHeart, HiHeart } from "react-icons/hi";
-import { addFavMeal, removeFavMeal } from "utils/favourites";
+import {
+  addFavMeal,
+  removeFavMeal,
+  addFavIngredient,
+  removeFavIngredient
+} from "utils/favourites";
 
-const FavouriteButton = ({ item, isMeal, ...props }) => {
+const FavouriteButton = ({ item, isMeal, isIngredient, ...props }) => {
   const router = useRouter();
   const cancelRef = useRef();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { favMeals, setFavMeals } = useContext(FavouritesContext);
+  const { favMeals, setFavMeals, favIngredients, setFavIngredients } =
+    useContext(FavouritesContext);
   const { userData } = useContext(UserContext);
   const [favourite, setFavourite] = useState({
     isFavourite: false,
@@ -48,9 +54,35 @@ const FavouriteButton = ({ item, isMeal, ...props }) => {
         };
         addFavMeal(value, favMeals, setFavMeals, toast, setFavourite);
       }
+
+      if (isIngredient) {
+        const { strIngredient, idIngredient, strDescription } = item;
+        const value = {
+          strIngredient,
+          idIngredient,
+          strDescription
+        };
+        addFavIngredient(
+          value,
+          favIngredients,
+          setFavIngredients,
+          toast,
+          setFavourite
+        );
+      }
     } else {
       if (isMeal) {
         removeFavMeal(favourite.id, favMeals, setFavMeals, toast, setFavourite);
+      }
+
+      if (isIngredient) {
+        removeFavIngredient(
+          favourite.id,
+          favIngredients,
+          setFavIngredients,
+          toast,
+          setFavourite
+        );
       }
     }
   };
@@ -74,6 +106,17 @@ const FavouriteButton = ({ item, isMeal, ...props }) => {
     });
   }, [favMeals]);
 
+  const filterIngredients = useCallback(() => {
+    return favIngredients.filter((fav) => {
+      if (fav.idIngredient === item.idIngredient) {
+        return setFavourite({
+          isFavourite: true,
+          id: fav._id
+        });
+      }
+    });
+  }, [favIngredients]);
+
   useEffect(() => {
     if (!userData?.isLoggedIn) {
       return setFavourite({
@@ -85,7 +128,11 @@ const FavouriteButton = ({ item, isMeal, ...props }) => {
     if (isMeal) {
       filterMeals();
     }
-  }, [userData?.isLoggedIn, isMeal, filterMeals]);
+
+    if (isIngredient) {
+      filterIngredients();
+    }
+  }, [userData?.isLoggedIn, isMeal, filterMeals, filterIngredients]);
 
   return (
     <Box {...props}>

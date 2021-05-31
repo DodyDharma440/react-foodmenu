@@ -7,7 +7,7 @@ const apiMeal = axios.create({
 });
 
 const apiUser = axios.create({
-  baseURL: "https://api-foodmenu.herokuapp.com"
+  baseURL: "https://api-user-themealdb.herokuapp.com"
 });
 
 apiUser.interceptors.request.use((req) => {
@@ -50,14 +50,14 @@ export const getCategoryList = () => {
 //Auth
 export const signIn = (inputValue) => {
   return axios.post(
-    "https://api-foodmenu.herokuapp.com/user/sign-in",
+    "https://api-user-themealdb.herokuapp.com/user/sign-in",
     inputValue
   );
 };
 
 export const signUp = (inputValue) => {
   return axios.post(
-    "https://api-foodmenu.herokuapp.com/user/sign-up",
+    "https://api-user-themealdb.herokuapp.com/user/sign-up",
     inputValue
   );
 };
@@ -77,4 +77,17 @@ export const addFavMeal = (value) => {
 
 export const removeFavMeal = (id) => {
   return apiUser.delete(`/favourites/meals/${id}`);
+};
+
+//Favourites Ingredients
+export const getFavIngredients = () => {
+  return apiUser.get("/favourites/ingredients");
+};
+
+export const addFavIngredient = (value) => {
+  return apiUser.post("/favourites/ingredients", value);
+};
+
+export const removeFavIngredient = (id) => {
+  return apiUser.delete(`/favourites/ingredients/${id}`);
 };

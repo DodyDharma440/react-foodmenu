@@ -12,7 +12,7 @@ import { GrTextAlignLeft } from "react-icons/gr";
 import { Header, SidebarRight } from "components/layout";
 import { ThumbCard } from "components/products";
 import { DescriptionCard, MealLists } from "components/products/_detail";
-// import { FavouriteButton } from "components/common";
+import { FavouriteButton } from "components/common";
 
 const DetailIngredient = ({ ingredient, recommendationMeals }) => {
   const dataIngredient = ingredient[0];
@@ -34,16 +34,9 @@ const DetailIngredient = ({ ingredient, recommendationMeals }) => {
         <Header title={strIngredient} />
         <ThumbCard my={2} image={imageUrl} />
 
-        {/* <Flex mb={2} alignItems="center">
-            <FavouriteButton
-              fontSize="3xl"
-              dataBody={{
-                idIngredient,
-                strIngredient
-              }}
-              isIngredient
-            />
-          </Flex> */}
+        <Flex mb={2} alignItems="center">
+          <FavouriteButton fontSize="3xl" item={dataIngredient} isIngredient />
+        </Flex>
 
         <VStack spacing={4}>
           <DescriptionCard

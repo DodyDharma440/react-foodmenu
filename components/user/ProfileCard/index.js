@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "context/userContext";
-// import { FavouritesContext } from "context/favouritesContext";
+import { FavouritesContext } from "context/favouritesContext";
 import {
   Box,
   Text,
@@ -16,7 +16,7 @@ import HeaderMedium from "components/common/HeaderMedium";
 
 const ProfileCard = ({ ...props }) => {
   const { userData } = useContext(UserContext);
-  // const { favMeals, favIngredients } = useContext(FavouritesContext);
+  const { favMeals, favIngredients } = useContext(FavouritesContext);
   const profileName = `${userData?.result?.firstName} ${userData?.result?.lastName}`;
   const profileEmail = userData?.result?.email;
 
@@ -45,13 +45,13 @@ const ProfileCard = ({ ...props }) => {
       <Flex>
         <Text color="gray.500">Meals</Text>
         <Spacer />
-        <Text>10</Text>
+        <Text>{favMeals.length}</Text>
       </Flex>
       <Divider my={2} />
       <Flex>
         <Text color="gray.500">Ingredients</Text>
         <Spacer />
-        <Text>12</Text>
+        <Text>{favIngredients.length}</Text>
       </Flex>
       <Divider my={2} />
     </Box>

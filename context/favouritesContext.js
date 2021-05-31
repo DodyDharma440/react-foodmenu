@@ -25,19 +25,29 @@ export const FavouritesProvider = ({ children }) => {
     }
   }, []);
 
+  const getFavIngredients = useCallback(async () => {
+    try {
+      const { data } = await api.getFavIngredients();
+      setFavIngredients(data.ingredients);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }, []);
+
   useEffect(() => {
     if (userData?.result?._id) {
       getFavMeals();
+      getFavIngredients();
     }
-  }, [userData?.result?._id, getFavMeals]);
+  }, [userData?.result?._id, getFavMeals, getFavIngredients]);
 
   return (
     <FavouritesContext.Provider
       value={{
         favMeals,
-        setFavMeals
-        // favIngredients,
-        // setFavIngredients
+        setFavMeals,
+        favIngredients,
+        setFavIngredients
       }}>
       {children}
     </FavouritesContext.Provider>
